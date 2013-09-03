@@ -16,7 +16,7 @@
 
 package com.google.zxing.client.result;
 
-import com.google.zxing.Java15;
+import com.google.zxing.Backport;
 import com.google.zxing.Result;
 
 import java.io.UnsupportedEncodingException;
@@ -231,7 +231,7 @@ public abstract class ResultParser {
           if (trim) {
             element = element.trim();
           }
-          if (!Java15.isEmpty(element)) {
+          if (!Backport.isEmpty(element)) {
             matches.add(element);
           }
           i++;

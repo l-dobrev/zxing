@@ -19,7 +19,7 @@ import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
 /**
- * Utility class containing back-ported constructions into Java 1.5 (kind-of).<br>
+ * Utility class containing back-ported constructions.<br>
  * This class is used to implement syntactic sugar and utility methods found in
  * newer Java versions, but lacking in the (older) Android world.<br>
  * These methods will throw {@link NullPointerException} when a <code>null</code>
@@ -28,8 +28,8 @@ import java.nio.charset.Charset;
  * 
  * @author Lachezar Dobrev
  */
-public class Java15 {
-  private Java15() {
+public class Backport {
+  private Backport() {
     // Static methods holder class.
   }
 

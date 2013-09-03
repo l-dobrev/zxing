@@ -17,7 +17,7 @@
 package com.google.zxing.pdf417.decoder;
 
 import com.google.zxing.FormatException;
-import com.google.zxing.Java15;
+import com.google.zxing.Backport;
 import com.google.zxing.common.DecoderResult;
 import com.google.zxing.pdf417.PDF417ResultMetadata;
 
@@ -180,7 +180,7 @@ final class DecodedBitStreamParser {
         }
       }
 
-      resultMetadata.setOptionalData(Java15.copyOf(additionalOptionCodeWords, additionalOptionCodeWordsIndex));
+      resultMetadata.setOptionalData(Backport.copyOf(additionalOptionCodeWords, additionalOptionCodeWordsIndex));
     } else if (codewords[codeIndex] == MACRO_PDF417_TERMINATOR) {
       resultMetadata.setLastSegment(true);
       codeIndex++;

@@ -17,7 +17,7 @@
 package com.google.zxing.datamatrix.encoder;
 
 import com.google.zxing.Dimension;
-import com.google.zxing.Java15;
+import com.google.zxing.Backport;
 
 import java.nio.charset.Charset;
 
@@ -35,7 +35,7 @@ final class EncoderContext {
 
   EncoderContext(String msg) {
     //From this point on Strings are not Unicode anymore!
-    byte[] msgBinary = Java15.getBytes(msg, Charset.forName("ISO-8859-1"));
+    byte[] msgBinary = Backport.getBytes(msg, Charset.forName("ISO-8859-1"));
     StringBuilder sb = new StringBuilder(msgBinary.length);
     for (int i = 0, c = msgBinary.length; i < c; i++) {
       char ch = (char) (msgBinary[i] & 0xff);

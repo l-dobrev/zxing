@@ -16,7 +16,7 @@
 
 package com.google.zxing.client.result;
 
-import com.google.zxing.Java15;
+import com.google.zxing.Backport;
 
 /**
  * <p>Abstract class representing the result of decoding a barcode, as more than
@@ -49,7 +49,7 @@ public abstract class ParsedResult {
   }
 
   public static void maybeAppend(String value, StringBuilder result) {
-    if (value != null && !Java15.isEmpty(value)) {
+    if (value != null && !Backport.isEmpty(value)) {
       // Don't add a newline before the first value
       if (result.length() > 0) {
         result.append('\n');

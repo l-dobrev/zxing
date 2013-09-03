@@ -16,7 +16,7 @@
 
 package com.google.zxing.client.result;
 
-import com.google.zxing.Java15;
+import com.google.zxing.Backport;
 import com.google.zxing.Result;
 
 import java.util.Map;
@@ -45,7 +45,7 @@ public final class EmailAddressResultParser extends ResultParser {
       String subject = null;
       String body = null;
       if (nameValues != null) {
-        if (Java15.isEmpty(emailAddress)) {
+        if (Backport.isEmpty(emailAddress)) {
           emailAddress = nameValues.get("to");
         }
         subject = nameValues.get("subject");

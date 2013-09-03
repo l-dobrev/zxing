@@ -26,7 +26,7 @@
 
 package com.google.zxing.oned.rss.expanded.decoders;
 
-import com.google.zxing.Java15;
+import com.google.zxing.Backport;
 import com.google.zxing.NotFoundException;
 
 /**
@@ -192,7 +192,7 @@ final class FieldParser {
   }
 
   static String parseFieldsInGeneralPurpose(String rawInformation) throws NotFoundException{
-    if (Java15.isEmpty(rawInformation)) {
+    if (Backport.isEmpty(rawInformation)) {
       return null;
     }
 
