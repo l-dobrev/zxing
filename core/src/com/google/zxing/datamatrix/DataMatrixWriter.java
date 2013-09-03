@@ -18,6 +18,7 @@ package com.google.zxing.datamatrix;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
+import com.google.zxing.Java15;
 import com.google.zxing.Writer;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.datamatrix.encoder.DefaultPlacement;
@@ -46,7 +47,7 @@ public final class DataMatrixWriter implements Writer {
   @Override
   public BitMatrix encode(String contents, BarcodeFormat format, int width, int height, Map<EncodeHintType,?> hints) {
 
-    if (contents.isEmpty()) {
+    if (Java15.isEmpty(contents)) {
       throw new IllegalArgumentException("Found empty contents");
     }
     

@@ -18,6 +18,7 @@ package com.google.zxing.aztec;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
+import com.google.zxing.Java15;
 import com.google.zxing.Writer;
 import com.google.zxing.aztec.encoder.AztecCode;
 import com.google.zxing.aztec.encoder.Encoder;
@@ -55,7 +56,7 @@ public final class AztecWriter implements Writer {
     if (format != BarcodeFormat.AZTEC) {
       throw new IllegalArgumentException("Can only encode AZTEC, but got " + format);
     }
-    AztecCode aztec = Encoder.encode(contents.getBytes(charset), eccPercent, layers);
+    AztecCode aztec = Encoder.encode(Java15.getBytes(contents, charset), eccPercent, layers);
     return renderResult(aztec, width, height);
   }
 

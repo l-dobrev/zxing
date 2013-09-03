@@ -17,11 +17,11 @@
 package com.google.zxing.pdf417.decoder;
 
 import com.google.zxing.FormatException;
+import com.google.zxing.Java15;
 import com.google.zxing.common.DecoderResult;
 import com.google.zxing.pdf417.PDF417ResultMetadata;
 
 import java.math.BigInteger;
-import java.util.Arrays;
 
 /**
  * <p>This class contains the methods for decoding the PDF417 codewords.</p>
@@ -180,7 +180,7 @@ final class DecodedBitStreamParser {
         }
       }
 
-      resultMetadata.setOptionalData(Arrays.copyOf(additionalOptionCodeWords, additionalOptionCodeWordsIndex));
+      resultMetadata.setOptionalData(Java15.copyOf(additionalOptionCodeWords, additionalOptionCodeWordsIndex));
     } else if (codewords[codeIndex] == MACRO_PDF417_TERMINATOR) {
       resultMetadata.setLastSegment(true);
       codeIndex++;

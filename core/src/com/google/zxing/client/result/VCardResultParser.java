@@ -16,6 +16,7 @@
 
 package com.google.zxing.client.result;
 
+import com.google.zxing.Java15;
 import com.google.zxing.Result;
 
 import java.io.ByteArrayOutputStream;
@@ -278,7 +279,7 @@ public final class VCardResultParser extends ResultParser {
     List<String> result = new ArrayList<String>(lists.size());
     for (List<String> list : lists) {
       String value = list.get(0);
-      if (value != null && !value.isEmpty()) {
+      if (value != null && !Java15.isEmpty(value)) {
         result.add(value);
       }
     }

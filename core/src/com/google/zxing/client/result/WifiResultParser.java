@@ -16,6 +16,7 @@
 
 package com.google.zxing.client.result;
 
+import com.google.zxing.Java15;
 import com.google.zxing.Result;
 
 /**
@@ -37,7 +38,7 @@ public final class WifiResultParser extends ResultParser {
       return null;
     }
     String ssid = matchSinglePrefixedField("S:", rawText, ';', false);
-    if (ssid == null || ssid.isEmpty()) {
+    if (ssid == null || Java15.isEmpty(ssid)) {
       return null;
     }
     String pass = matchSinglePrefixedField("P:", rawText, ';', false);

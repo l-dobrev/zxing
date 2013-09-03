@@ -18,6 +18,7 @@ package com.google.zxing.qrcode;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
+import com.google.zxing.Java15;
 import com.google.zxing.Writer;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
@@ -51,7 +52,7 @@ public final class QRCodeWriter implements Writer {
                           int height,
                           Map<EncodeHintType,?> hints) throws WriterException {
 
-    if (contents.isEmpty()) {
+    if (Java15.isEmpty(contents)) {
       throw new IllegalArgumentException("Found empty contents");
     }
 

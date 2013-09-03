@@ -17,6 +17,7 @@
 package com.google.zxing.datamatrix.encoder;
 
 import com.google.zxing.Dimension;
+import com.google.zxing.Java15;
 
 import java.nio.charset.Charset;
 import java.util.Arrays;
@@ -120,7 +121,7 @@ public final class HighLevelEncoder {
    * @return the byte array of the message
    */
   public static byte[] getBytesForMessage(String msg) {
-    return msg.getBytes(Charset.forName("cp437")); //See 4.4.3 and annex B of ISO/IEC 15438:2001(E)
+    return Java15.getBytes(msg, Charset.forName("cp437")); //See 4.4.3 and annex B of ISO/IEC 15438:2001(E)
   }
 
   private static char randomize253State(char ch, int codewordPosition) {

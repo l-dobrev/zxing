@@ -16,6 +16,8 @@
 
 package com.google.zxing.client.result;
 
+import com.google.zxing.Java15;
+
 /**
  * <p>Abstract class representing the result of decoding a barcode, as more than
  * a String -- as some type of structured data. This might be a subclass which represents
@@ -47,7 +49,7 @@ public abstract class ParsedResult {
   }
 
   public static void maybeAppend(String value, StringBuilder result) {
-    if (value != null && !value.isEmpty()) {
+    if (value != null && !Java15.isEmpty(value)) {
       // Don't add a newline before the first value
       if (result.length() > 0) {
         result.append('\n');
