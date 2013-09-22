@@ -44,8 +44,6 @@ import com.google.zxing.client.android.Intents;
 import com.google.zxing.client.android.HttpHelper;
 import com.google.zxing.client.android.LocaleManager;
 import com.google.zxing.client.android.R;
-import com.google.zxing.client.android.common.executor.AsyncTaskExecInterface;
-import com.google.zxing.client.android.common.executor.AsyncTaskExecManager;
 
 /**
  * Uses Google Book Search to find a word or phrase in the requested book.
@@ -64,15 +62,10 @@ public final class SearchBookContentsActivity extends Activity {
 
   private String isbn;
   private EditText queryTextView;
-  private Button queryButton;
+  private View queryButton;
   private ListView resultListView;
   private TextView headerView;
-  private NetworkTask networkTask;
-  private final AsyncTaskExecInterface taskExec;
-
-  public SearchBookContentsActivity() {
-    taskExec = new AsyncTaskExecManager().build();
-  }
+  private AsyncTask<String,?,?> networkTask;
 
   private final Button.OnClickListener buttonListener = new Button.OnClickListener() {
     @Override
@@ -127,7 +120,7 @@ public final class SearchBookContentsActivity extends Activity {
     }
     queryTextView.setOnKeyListener(keyListener);
 
-    queryButton = (Button) findViewById(R.id.query_button);
+    queryButton = findViewById(R.id.query_button);
     queryButton.setOnClickListener(buttonListener);
 
     resultListView = (ListView) findViewById(R.id.result_list_view);
@@ -145,7 +138,7 @@ public final class SearchBookContentsActivity extends Activity {
 
   @Override
   protected void onPause() {
-    NetworkTask oldTask = networkTask;
+    AsyncTask<?,?,?> oldTask = networkTask;
     if (oldTask != null) {
       oldTask.cancel(true);
       networkTask = null;
@@ -156,12 +149,12 @@ public final class SearchBookContentsActivity extends Activity {
   private void launchSearch() {
     String query = queryTextView.getText().toString();
     if (query != null && !query.isEmpty()) {
-      NetworkTask oldTask = networkTask;
+      AsyncTask<?,?,?> oldTask = networkTask;
       if (oldTask != null) {
         oldTask.cancel(true);
       }
       networkTask = new NetworkTask();
-      taskExec.execute(networkTask, query, isbn);
+      networkTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, query, isbn);
       headerView.setText(R.string.msg_sbc_searching_book);
       resultListView.setAdapter(null);
       queryTextView.setEnabled(false);

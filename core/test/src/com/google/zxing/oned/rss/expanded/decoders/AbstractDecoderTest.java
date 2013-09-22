@@ -26,6 +26,7 @@
 
 package com.google.zxing.oned.rss.expanded.decoders;
 
+import com.google.zxing.FormatException;
 import com.google.zxing.NotFoundException;
 import com.google.zxing.common.BitArray;
 import com.google.zxing.oned.rss.expanded.BinaryUtil;
@@ -40,7 +41,7 @@ public abstract class AbstractDecoderTest extends Assert {
 	protected static final String numeric_10                     = "..X..XX";
 	protected static final String numeric_12                     = "..X.X.X";
 	protected static final String numeric_1FNC1                  = "..XXX.X";
-	protected static final String numeric_FNC11                  = "XXX.XXX";
+	//protected static final String numeric_FNC11                  = "XXX.XXX";
 	                                                             
 	protected static final String numeric2alpha                  = "....";
 	                                                             
@@ -67,7 +68,7 @@ public abstract class AbstractDecoderTest extends Assert {
 	protected static final String compressedDate_End             = "X..X.XX.........";
 
 	protected static void assertCorrectBinaryString(CharSequence binaryString,
-                                                  String expectedNumber) throws NotFoundException {
+                                                  String expectedNumber) throws NotFoundException, FormatException {
 		BitArray binary = BinaryUtil.buildBitArrayFromStringWithoutSpaces(binaryString);
 		AbstractExpandedDecoder decoder = AbstractExpandedDecoder.createDecoder(binary);
 		String result = decoder.parseInformation();

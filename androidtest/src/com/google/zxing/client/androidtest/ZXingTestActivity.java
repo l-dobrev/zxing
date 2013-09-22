@@ -253,7 +253,7 @@ public final class ZXingTestActivity extends Activity {
     AlertDialog.Builder builder = new AlertDialog.Builder(this);
     builder.setTitle(title);
     builder.setMessage(message);
-    builder.setPositiveButton("OK", null);
+    builder.setPositiveButton(R.string.ok_button, null);
     builder.show();
   }
 
@@ -268,7 +268,7 @@ public final class ZXingTestActivity extends Activity {
     integrator.shareText(data.toString(), type); // data.toString() isn't used
   }
 
-  private static String getFlattenedParams() {
+  private static CharSequence getFlattenedParams() {
     Camera camera = Camera.open();
     if (camera == null) {
       return null;
@@ -307,7 +307,7 @@ public final class ZXingTestActivity extends Activity {
     result.append("VERSION.RELEASE=").append(Build.VERSION.RELEASE).append('\n');
     result.append("VERSION.SDK_INT=").append(Build.VERSION.SDK_INT).append('\n');
 
-    String flattened = getFlattenedParams();
+    CharSequence flattened = getFlattenedParams();
     String[] params = SEMICOLON.split(flattened);
     Arrays.sort(params);
     for (String param : params) {

@@ -30,10 +30,7 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
-import com.google.zxing.client.android.common.executor.AsyncTaskExecInterface;
-import com.google.zxing.client.android.common.executor.AsyncTaskExecManager;
 import com.google.zxing.client.android.history.HistoryManager;
 import com.google.zxing.client.result.ISBNParsedResult;
 import com.google.zxing.client.result.ParsedResult;
@@ -48,35 +45,50 @@ public abstract class SupplementalInfoRetriever extends AsyncTask<Object,Object,
                                           ParsedResult result,
                                           HistoryManager historyManager,
                                           Context context) {
-    AsyncTaskExecInterface taskExec = new AsyncTaskExecManager().build();
     if (result instanceof URIParsedResult) {
-      taskExec.execute(new URIResultInfoRetriever(textView, (URIParsedResult) result, historyManager, context));
-      taskExec.execute(new TitleRetriever(textView, (URIParsedResult) result, historyManager));
+      SupplementalInfoRetriever uriRetriever = 
+          new URIResultInfoRetriever(textView, (URIParsedResult) result, historyManager, context);
+      uriRetriever.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+      SupplementalInfoRetriever titleRetriever = 
+          new TitleRetriever(textView, (URIParsedResult) result, historyManager);
+      titleRetriever.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     } else if (result instanceof ProductParsedResult) {
       ProductParsedResult productParsedResult = (ProductParsedResult) result;
       String productID = productParsedResult.getProductID();
       String normalizedProductID = productParsedResult.getNormalizedProductID();
-      taskExec.execute(new ProductResultInfoRetriever(textView, productID, historyManager, context));
+      SupplementalInfoRetriever productRetriever = 
+          new ProductResultInfoRetriever(textView, productID, historyManager, context);
+      productRetriever.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
       switch (productID.length()) {
         case 12:
-          taskExec.execute(new AmazonInfoRetriever(textView, "UPC", normalizedProductID, historyManager, context));      
+          SupplementalInfoRetriever upcInfoRetriever = 
+              new AmazonInfoRetriever(textView, "UPC", normalizedProductID, historyManager, context);
+          upcInfoRetriever.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
           break;
         case 13:
-          taskExec.execute(new AmazonInfoRetriever(textView, "EAN", normalizedProductID, historyManager, context)); 
+          SupplementalInfoRetriever eanInfoRetriever =
+              new AmazonInfoRetriever(textView, "EAN", normalizedProductID, historyManager, context);
+          eanInfoRetriever.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
           break;
       }
     } else if (result instanceof ISBNParsedResult) {
       String isbn = ((ISBNParsedResult) result).getISBN();
-      taskExec.execute(new ProductResultInfoRetriever(textView, isbn, historyManager, context));
-      taskExec.execute(new BookResultInfoRetriever(textView, isbn, historyManager, context));
-      taskExec.execute(new AmazonInfoRetriever(textView, "ISBN", isbn, historyManager, context));      
+      SupplementalInfoRetriever productInfoRetriever = 
+          new ProductResultInfoRetriever(textView, isbn, historyManager, context);
+      productInfoRetriever.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+      SupplementalInfoRetriever bookInfoRetriever = 
+          new BookResultInfoRetriever(textView, isbn, historyManager, context);
+      bookInfoRetriever.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+      SupplementalInfoRetriever amazonInfoRetriever =
+          new AmazonInfoRetriever(textView, "ISBN", isbn, historyManager, context);
+      amazonInfoRetriever.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);      
     }
   }
 
   private final WeakReference<TextView> textViewRef;
   private final WeakReference<HistoryManager> historyManagerRef;
-  private final List<Spannable> newContents;
-  private final List<String[]> newHistories;
+  private final Collection<Spannable> newContents;
+  private final Collection<String[]> newHistories;
 
   SupplementalInfoRetriever(TextView textView, HistoryManager historyManager) {
     textViewRef = new WeakReference<TextView>(textView);
@@ -99,7 +111,7 @@ public abstract class SupplementalInfoRetriever extends AsyncTask<Object,Object,
   protected final void onPostExecute(Object arg) {
     TextView textView = textViewRef.get();
     if (textView != null) {
-      for (Spannable content : newContents) {
+      for (CharSequence content : newContents) {
         textView.append(content);
       }
       textView.setMovementMethod(LinkMovementMethod.getInstance());
