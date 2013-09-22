@@ -17,7 +17,6 @@
 package com.google.zxing.datamatrix.encoder;
 
 import com.google.zxing.Dimension;
-import com.google.zxing.Backport;
 
 import java.util.Arrays;
 
