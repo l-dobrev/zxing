@@ -69,6 +69,15 @@ public class Backport {
     return ba;
   }
 
+  /** Replacement for new String(byte[], Charset). */
+  public static String getString(byte[] content, Charset charset) {
+    if (content == null)
+      throw new NullPointerException("getString(null, ...)");
+    if (charset == null)
+      throw new NullPointerException("getString(..., null)");
+    return charset.decode(ByteBuffer.wrap(content)).toString();
+  }
+
   /** Replacement for String.isEmpty(). */
   public static boolean isEmpty(String contents) {
     if (contents == null) {

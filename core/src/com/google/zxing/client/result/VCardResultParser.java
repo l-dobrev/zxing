@@ -247,12 +247,12 @@ public final class VCardResultParser extends ResultParser {
       byte[] fragmentBytes = fragmentBuffer.toByteArray();
       String fragment;
       if (charset == null) {
-        fragment = new String(fragmentBytes, Charset.forName("UTF-8"));
+        fragment = Backport.getString(fragmentBytes, Charset.forName("UTF-8"));
       } else {
         try {
           fragment = new String(fragmentBytes, charset);
         } catch (UnsupportedEncodingException e) {
-          fragment = new String(fragmentBytes, Charset.forName("UTF-8"));
+          fragment = Backport.getString(fragmentBytes, Charset.forName("UTF-8"));
         }
       }
       fragmentBuffer.reset();
@@ -347,7 +347,7 @@ public final class VCardResultParser extends ResultParser {
   }
 
   private static void maybeAppendComponent(String[] components, int i, StringBuilder newName) {
-    if (components[i] != null && !components[i].isEmpty()) {
+    if (components[i] != null && !Backport.isEmpty(components[i])) {
       if (newName.length() > 0) {
         newName.append(' ');
       }
