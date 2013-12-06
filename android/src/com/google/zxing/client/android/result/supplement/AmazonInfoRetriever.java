@@ -57,13 +57,21 @@ final class AmazonInfoRetriever extends SupplementalInfoRetriever {
 
   @Override
   void retrieveSupplementalInfo() throws IOException {
+    boolean success = doRetrieveForCountry(country);
+    if (!success && !"US".equals(country)) {
+      // Also show US results to expand scope of results
+      doRetrieveForCountry("US");
+    }
+  }
+
+  private boolean doRetrieveForCountry(String theCountry) throws IOException {
 
     CharSequence contents =  
-        HttpHelper.downloadViaHttp("https://bsplus.srowen.com/ss?c=" + country + "&t=" + type + "&i=" + productID,
+        HttpHelper.downloadViaHttp("https://bsplus.srowen.com/ss?c=" + theCountry + "&t=" + type + "&i=" + productID,
                                    HttpHelper.ContentType.XML);
 
     String detailPageURL = null;
-    Collection<String> authors = new ArrayList<String>();
+    Collection<String> authors = new ArrayList<>();
     String title = null;
     String formattedNewPrice = null;
     String formattedUsedPrice = null;
@@ -75,46 +83,58 @@ final class AmazonInfoRetriever extends SupplementalInfoRetriever {
       boolean seenItem = false;
       boolean seenLowestNewPrice = false;
       boolean seenLowestUsedPrice = false;
-      
-      for (int eventType = xpp.getEventType(); eventType != XmlPullParser.END_DOCUMENT; eventType = xpp.next()) {
+
+      boolean done = false;
+      for (int eventType = xpp.getEventType();
+           !done && eventType != XmlPullParser.END_DOCUMENT;
+           eventType = xpp.next()) {
         if (eventType == XmlPullParser.START_TAG) {
           String name = xpp.getName();
-          if ("Item".equals(name)) {
-            if (seenItem) {
-              break;
-            } else {
-              seenItem = true;
-            }
-          } else if ("DetailPageURL".equals(name)) {
-            assertTextNext(xpp);
-            detailPageURL = xpp.getText();
-          } else if ("Author".equals(name)) {
-            assertTextNext(xpp);
-            authors.add(xpp.getText());
-          } else if ("Title".equals(name)) {
-            assertTextNext(xpp);
-            title = xpp.getText();
-          } else if ("LowestNewPrice".equals(name)) {
-            seenLowestNewPrice = true;
-            seenLowestUsedPrice = false;
-          } else if ("LowestUsedPrice".equals(name)) {
-            seenLowestNewPrice = false;
-            seenLowestUsedPrice = true;
-          } else if ("FormattedPrice".equals(name)) {
-            if (seenLowestNewPrice || seenLowestUsedPrice) {
-              assertTextNext(xpp);
-              String theText = xpp.getText();
-              if (seenLowestNewPrice) {
-                formattedNewPrice = theText;
+          switch (name) {
+            case "Item":
+              if (seenItem) {
+                done = true; // terminates loop
               } else {
-                formattedUsedPrice = theText;
+                seenItem = true;
               }
-              seenLowestNewPrice = false;
+              break;
+            case "DetailPageURL":
+              assertTextNext(xpp);
+              detailPageURL = xpp.getText();
+              break;
+            case "Author":
+              assertTextNext(xpp);
+              authors.add(xpp.getText());
+              break;
+            case "Title":
+              assertTextNext(xpp);
+              title = xpp.getText();
+              break;
+            case "LowestNewPrice":
+              seenLowestNewPrice = true;
               seenLowestUsedPrice = false;
-            }
-          } else if ("Errors".equals(name)) {
-            error = true;
-            break;
+              break;
+            case "LowestUsedPrice":
+              seenLowestNewPrice = false;
+              seenLowestUsedPrice = true;
+              break;
+            case "FormattedPrice":
+              if (seenLowestNewPrice || seenLowestUsedPrice) {
+                assertTextNext(xpp);
+                String theText = xpp.getText();
+                if (seenLowestNewPrice) {
+                  formattedNewPrice = theText;
+                } else {
+                  formattedUsedPrice = theText;
+                }
+                seenLowestNewPrice = false;
+                seenLowestUsedPrice = false;
+              }
+              break;
+            case "Errors":
+              error = true;
+              done = true; // terminates loop
+              break;
           }
         }
       }
@@ -124,10 +144,10 @@ final class AmazonInfoRetriever extends SupplementalInfoRetriever {
     }
     
     if (error || detailPageURL == null) {
-      return;
+      return false;
     }
 
-    Collection<String> newTexts = new ArrayList<String>();
+    Collection<String> newTexts = new ArrayList<>();
     maybeAddText(title, newTexts);
     maybeAddTextSeries(authors, newTexts);
     if (formattedNewPrice != null) {
@@ -136,7 +156,8 @@ final class AmazonInfoRetriever extends SupplementalInfoRetriever {
       maybeAddText(formattedUsedPrice, newTexts);      
     }
 
-    append(productID, "Amazon", newTexts.toArray(new String[newTexts.size()]), detailPageURL);
+    append(productID, "Amazon " + theCountry, newTexts.toArray(new String[newTexts.size()]), detailPageURL);
+    return true;
   }
   
   private static void assertTextNext(XmlPullParser xpp) throws XmlPullParserException, IOException {
