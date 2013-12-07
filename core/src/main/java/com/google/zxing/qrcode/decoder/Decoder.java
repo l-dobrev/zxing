@@ -125,7 +125,7 @@ public final class Decoder {
 
       return result;
 
-    } catch (FormatException | ChecksumException e) {
+    } catch (FormatException e) {
       // Throw the exception from the original reading
       if (fe != null) {
         throw fe;
@@ -134,7 +134,15 @@ public final class Decoder {
         throw ce;
       }
       throw e;
-
+    } catch (ChecksumException e) {
+      // Throw the exception from the original reading
+      if (fe != null) {
+        throw fe;
+      }
+      if (ce != null) {
+        throw ce;
+      }
+      throw e;
     }
   }
 
