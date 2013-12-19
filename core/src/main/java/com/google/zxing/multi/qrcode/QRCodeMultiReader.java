@@ -127,8 +127,8 @@ public final class QRCodeMultiReader extends QRCodeReader implements MultipleBar
       concatedText.append(saResult.getText());
       rawBytesLen += saResult.getRawBytes().length;
       if (saResult.getResultMetadata().containsKey(ResultMetadataType.BYTE_SEGMENTS)) {
-        for (byte[] segment : (Iterable<byte[]>) saResult.getResultMetadata().get(ResultMetadataType.BYTE_SEGMENTS)) {
-          byteSegmentLength += segment.length;
+        for (Object object : (Iterable<?>) saResult.getResultMetadata().get(ResultMetadataType.BYTE_SEGMENTS)) {
+          byteSegmentLength += ((byte[])object).length;
         }
       }
     }
@@ -140,7 +140,8 @@ public final class QRCodeMultiReader extends QRCodeReader implements MultipleBar
       System.arraycopy(saResult.getRawBytes(), 0, newRawBytes, newRawBytesIndex, saResult.getRawBytes().length);
       newRawBytesIndex += saResult.getRawBytes().length;
       if (saResult.getResultMetadata().containsKey(ResultMetadataType.BYTE_SEGMENTS)) {
-        for (byte[] segment : (Iterable<byte[]>) saResult.getResultMetadata().get(ResultMetadataType.BYTE_SEGMENTS)) {
+        for (Object object : (Iterable<?>) saResult.getResultMetadata().get(ResultMetadataType.BYTE_SEGMENTS)) {
+          byte[] segment = (byte[]) object;
           System.arraycopy(segment, 0, newByteSegment, byteSegmentIndex, segment.length);
           byteSegmentIndex += segment.length;
         }
