@@ -26,8 +26,10 @@ import android.view.Display;
 import android.view.WindowManager;
 
 import com.google.zxing.client.android.PreferencesActivity;
+import com.google.zxing.client.android.camera.metering.MeteringInterface;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -46,9 +48,10 @@ final class CameraConfigurationManager {
   // below will still select the default (presumably 320x240) size for these. This prevents
   // accidental selection of very low resolution on some devices.
   private static final int MIN_PREVIEW_PIXELS = 480 * 320; // normal screen
-  //private static final float MAX_EXPOSURE_COMPENSATION = 1.5f;
-  //private static final float MIN_EXPOSURE_COMPENSATION = 0.0f;
+  private static final float MAX_EXPOSURE_COMPENSATION = 1.5f;
+  private static final float MIN_EXPOSURE_COMPENSATION = 0.0f;
   private static final double MAX_ASPECT_DISTORTION = 0.15;
+  private static final int MIN_FPS = 5;
 
   private final Context context;
   private Point screenResolution;
@@ -91,6 +94,8 @@ final class CameraConfigurationManager {
 
     initializeTorch(parameters, prefs, safeMode);
 
+    setBestPreviewFPS(parameters);
+
     String focusMode = null;
     if (prefs.getBoolean(PreferencesActivity.KEY_AUTO_FOCUS, true)) {
       if (safeMode || prefs.getBoolean(PreferencesActivity.KEY_DISABLE_CONTINUOUS_FOCUS, false)) {
@@ -113,12 +118,35 @@ final class CameraConfigurationManager {
       parameters.setFocusMode(focusMode);
     }
 
-    if (prefs.getBoolean(PreferencesActivity.KEY_INVERT_SCAN, false)) {
-      String colorMode = findSettableValue(parameters.getSupportedColorEffects(),
-                                           Camera.Parameters.EFFECT_NEGATIVE);
-      if (colorMode != null) {
-        parameters.setColorEffect(colorMode);
+    if (!safeMode) {
+      if (prefs.getBoolean(PreferencesActivity.KEY_INVERT_SCAN, false)) {
+        String colorMode = findSettableValue(parameters.getSupportedColorEffects(),
+                                             Camera.Parameters.EFFECT_NEGATIVE);
+        if (colorMode != null) {
+          parameters.setColorEffect(colorMode);
+        }
       }
+
+      if (!prefs.getBoolean(PreferencesActivity.KEY_DISABLE_BARCODE_SCENE_MODE, false)) {
+        String sceneMode = findSettableValue(parameters.getSupportedSceneModes(),
+                                             Camera.Parameters.SCENE_MODE_BARCODE);
+        if (sceneMode != null) {
+          parameters.setSceneMode(sceneMode);
+        }
+      }
+
+      if (!prefs.getBoolean(PreferencesActivity.KEY_DISABLE_METERING, false)) {
+        if (parameters.isVideoStabilizationSupported()) {
+          Log.i(TAG, "Enabling video stabilization...");
+          parameters.setVideoStabilization(true);
+        } else {
+          Log.i(TAG, "This device does not support video stabilization");
+        }
+
+        MeteringInterface.setFocusArea(parameters);
+        MeteringInterface.setMetering(parameters);
+      }
+
     }
 
     parameters.setPreviewSize(cameraResolution.x, cameraResolution.y);
@@ -180,7 +208,6 @@ final class CameraConfigurationManager {
       parameters.setFlashMode(flashMode);
     }
 
-    /*
     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
     if (!prefs.getBoolean(PreferencesActivity.KEY_DISABLE_EXPOSURE, false)) {
       if (!safeMode) {
@@ -203,7 +230,34 @@ final class CameraConfigurationManager {
         }
       }
     }
-     */
+  }
+
+  private static void setBestPreviewFPS(Camera.Parameters parameters) {
+    // Required for Glass compatibility; also improves battery/CPU performance a tad
+    List<int[]> supportedPreviewFpsRanges = parameters.getSupportedPreviewFpsRange();
+    Log.i(TAG, "Supported FPS ranges: " + supportedPreviewFpsRanges);
+    if (supportedPreviewFpsRanges != null && !supportedPreviewFpsRanges.isEmpty()) {
+      int[] minimumSuitableFpsRange = null;
+      for (int[] fpsRange : supportedPreviewFpsRanges) {
+        int fpsMax = fpsRange[Camera.Parameters.PREVIEW_FPS_MAX_INDEX];
+        if (fpsMax >= MIN_FPS * 1000 &&
+            (minimumSuitableFpsRange == null ||
+             fpsMax > minimumSuitableFpsRange[Camera.Parameters.PREVIEW_FPS_MAX_INDEX])) {
+          minimumSuitableFpsRange = fpsRange;
+        }
+      }
+      if (minimumSuitableFpsRange == null) {
+        Log.i(TAG, "No suitable FPS range?");
+      } else {
+        int[] currentFpsRange = new int[2];
+        parameters.getPreviewFpsRange(currentFpsRange);
+        if (!Arrays.equals(currentFpsRange, minimumSuitableFpsRange)) {
+          Log.i(TAG, "Setting FPS range to " + Arrays.toString(minimumSuitableFpsRange));
+          parameters.setPreviewFpsRange(minimumSuitableFpsRange[Camera.Parameters.PREVIEW_FPS_MIN_INDEX],
+                                        minimumSuitableFpsRange[Camera.Parameters.PREVIEW_FPS_MAX_INDEX]);
+        }
+      }
+    }
   }
 
   private Point findBestPreviewSizeValue(Camera.Parameters parameters, Point screenResolution) {
@@ -260,7 +314,7 @@ final class CameraConfigurationManager {
       double aspectRatio = (double) maybeFlippedWidth / (double) maybeFlippedHeight;
       double distortion = Math.abs(aspectRatio - screenAspectRatio);
       if (distortion > MAX_ASPECT_DISTORTION) {
-        it.remove(); 
+        it.remove();
         continue;
       }
 

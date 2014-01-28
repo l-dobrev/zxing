@@ -31,6 +31,7 @@ import com.google.zxing.multi.qrcode.detector.MultiDetector;
 import com.google.zxing.qrcode.QRCodeReader;
 import com.google.zxing.qrcode.decoder.QRCodeDecoderMetaData;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -127,8 +128,11 @@ public final class QRCodeMultiReader extends QRCodeReader implements MultipleBar
       concatedText.append(saResult.getText());
       rawBytesLen += saResult.getRawBytes().length;
       if (saResult.getResultMetadata().containsKey(ResultMetadataType.BYTE_SEGMENTS)) {
-        for (Object object : (Iterable<?>) saResult.getResultMetadata().get(ResultMetadataType.BYTE_SEGMENTS)) {
-          byteSegmentLength += ((byte[])object).length;
+        @SuppressWarnings("unchecked")
+        Iterable<byte[]> byteSegments =
+            (Iterable<byte[]>) saResult.getResultMetadata().get(ResultMetadataType.BYTE_SEGMENTS);
+        for (byte[] segment : byteSegments) {
+          byteSegmentLength += segment.length;
         }
       }
     }
@@ -140,8 +144,10 @@ public final class QRCodeMultiReader extends QRCodeReader implements MultipleBar
       System.arraycopy(saResult.getRawBytes(), 0, newRawBytes, newRawBytesIndex, saResult.getRawBytes().length);
       newRawBytesIndex += saResult.getRawBytes().length;
       if (saResult.getResultMetadata().containsKey(ResultMetadataType.BYTE_SEGMENTS)) {
-        for (Object object : (Iterable<?>) saResult.getResultMetadata().get(ResultMetadataType.BYTE_SEGMENTS)) {
-          byte[] segment = (byte[]) object;
+        @SuppressWarnings("unchecked")
+        Iterable<byte[]> byteSegments =
+            (Iterable<byte[]>) saResult.getResultMetadata().get(ResultMetadataType.BYTE_SEGMENTS);
+        for (byte[] segment : byteSegments) {
           System.arraycopy(segment, 0, newByteSegment, byteSegmentIndex, segment.length);
           byteSegmentIndex += segment.length;
         }
@@ -157,7 +163,7 @@ public final class QRCodeMultiReader extends QRCodeReader implements MultipleBar
     return newResults;
   }
 
-  private static final class SAComparator implements Comparator<Result> {
+  private static final class SAComparator implements Comparator<Result>, Serializable {
     @Override
     public int compare(Result a, Result b) {
       int aNumber = (Integer) (a.getResultMetadata().get(ResultMetadataType.STRUCTURED_APPEND_SEQUENCE));

@@ -91,13 +91,18 @@
   <string name="preferences_copy_to_clipboard_title">Copiază în clipboard</string>
   <string name="preferences_custom_product_search_summary" formatted="false">Înlocuiri: %s = conținut, %f = format, %t = tip</string>
   <string name="preferences_custom_product_search_title">Căutare URL personalizată</string>
-  <string name="preferences_decode_1D_title">Coduri de bară 1D</string>
-  <string name="preferences_decode_Data_Matrix_title">Coduri Data Matrix</string>
+  <string name="preferences_decode_1D_industrial_title">1D Industriale</string>
+  <string name="preferences_decode_1D_product_title">1D Produs</string>
+  <string name="preferences_decode_Aztec_title">Aztec</string>
+  <string name="preferences_decode_Data_Matrix_title">Data Matrix</string>
+  <string name="preferences_decode_PDF417_title">PDF417</string>
   <string name="preferences_decode_QR_title">Coduri QR</string>
   <string name="preferences_device_bug_workarounds_title">Rezolvări rapide ale defectelor la aparat</string>
+  <string name="preferences_disable_barcode_scene_mode_title">Nicio imagine afișată în mod vedere</string>
   <string name="preferences_disable_continuous_focus_summary">Folosește focalizarea standard</string>
   <string name="preferences_disable_continuous_focus_title">Dezactivează focalizarea continuă</string>
   <string name="preferences_disable_exposure_title">Nicio expunere</string>
+  <string name="preferences_disable_metering_title">Nicio contorizare</string>
   <string name="preferences_front_light_summary">Îmbunătățește scanarea în lumină redusă, dar poate cauza strălucire excesivă. Nu funcționează la toate aparatele.</string>
   <string name="preferences_front_light_title">Folosește lumina frontală</string>
   <string name="preferences_front_light_auto">Iluminare automată</string>
