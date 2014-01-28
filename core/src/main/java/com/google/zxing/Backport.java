@@ -34,15 +34,9 @@ public class Backport {
   }
 
   /** Replacement for Arrays.copyOf(). */
-  public static int[] copyOf(int[] source, int offset) {
-    if (source == null) {
-      throw new NullPointerException("copyOf(null, ...)");
-    }
-    if (offset < 0 || offset >= source.length) {
-      throw new ArrayIndexOutOfBoundsException(offset);
-    }
-    int[] target = new int[source.length - offset];
-    System.arraycopy(source, offset, target, 0, target.length);
+  public static int[] copyOf(int[] source, int length) {
+    int[] target = new int[length];
+    System.arraycopy(source, 0, target, 0, Math.min(source.length, length));
     return target;
   }
 
