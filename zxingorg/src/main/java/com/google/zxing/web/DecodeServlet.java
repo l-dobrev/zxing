@@ -86,10 +86,10 @@ public final class DecodeServlet extends HttpServlet {
 
   private static final Logger log = Logger.getLogger(DecodeServlet.class.getName());
 
-  // No real reason to let people upload more than a 4MB image
-  private static final long MAX_IMAGE_SIZE = 4000000L;
-  // No real reason to deal with more than maybe 8.3 megapixels
-  private static final int MAX_PIXELS = 1 << 23;
+  // No real reason to let people upload more than a 10MB image
+  private static final long MAX_IMAGE_SIZE = 10_000_000L;
+  // No real reason to deal with more than maybe 10 megapixels
+  private static final int MAX_PIXELS = 10_000_000;
   private static final byte[] REMAINDER_BUFFER = new byte[32768];
   private static final Map<DecodeHintType,Object> HINTS;
   private static final Map<DecodeHintType,Object> HINTS_PURE;
@@ -219,32 +219,27 @@ public final class DecodeServlet extends HttpServlet {
         return;
       }
 
-      InputStream is = null;
-      try {
+      try (InputStream is = connection.getInputStream()) {
+        try {
+          if (connection.getResponseCode() != HttpServletResponse.SC_OK) {
+            log.info("Unsuccessful return code: " + connection.getResponseCode());
+            response.sendRedirect("badurl.jspx");
+            return;
+          }
+          if (connection.getHeaderFieldInt(HttpHeaders.CONTENT_LENGTH, 0) > MAX_IMAGE_SIZE) {
+            log.info("Too large");
+            response.sendRedirect("badimage.jspx");
+            return;
+          }
 
-        is = connection.getInputStream();
+          log.info("Decoding " + imageURL);
+          processStream(is, request, response);
 
-        if (connection.getResponseCode() != HttpServletResponse.SC_OK) {
-          log.info("Unsuccessful return code: " + connection.getResponseCode());
+        } catch (IOException ioe) {
+          log.info(ioe.toString());
           response.sendRedirect("badurl.jspx");
-          return;
-        }
-        if (connection.getHeaderFieldInt(HttpHeaders.CONTENT_LENGTH, 0) > MAX_IMAGE_SIZE) {
-          log.info("Too large");
-          response.sendRedirect("badimage.jspx");
-          return;
-        }
-
-        log.info("Decoding " + imageURL);
-        processStream(is, request, response);
-
-      } catch (IOException ioe) {
-        log.info(ioe.toString());
-        response.sendRedirect("badurl.jspx");
-      } finally {
-        if (is != null) {
+        } finally {
           consumeRemainder(is);
-          is.close();
         }
       }
 
