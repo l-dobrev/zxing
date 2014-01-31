@@ -50,16 +50,12 @@ public class Backport {
     }
     ByteBuffer output;
     output = charset.encode(contents);
-    if (output.hasArray()) {
-      return output.array(); // Hope this is the case.
-    }
 
     byte[] ba;
     ba = new byte[output.remaining()];
 
-    for (int i = 0; i < ba.length; i++) {
-      ba[i] = output.get();
-    }
+    output.get(ba);
+
     return ba;
   }
 
