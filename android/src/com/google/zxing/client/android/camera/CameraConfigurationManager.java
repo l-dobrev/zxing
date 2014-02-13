@@ -98,7 +98,7 @@ final class CameraConfigurationManager {
 
     String focusMode = null;
     if (prefs.getBoolean(PreferencesActivity.KEY_AUTO_FOCUS, true)) {
-      if (safeMode || prefs.getBoolean(PreferencesActivity.KEY_DISABLE_CONTINUOUS_FOCUS, false)) {
+      if (safeMode || prefs.getBoolean(PreferencesActivity.KEY_DISABLE_CONTINUOUS_FOCUS, true)) {
         focusMode = findSettableValue(parameters.getSupportedFocusModes(),
                                       Camera.Parameters.FOCUS_MODE_AUTO);
       } else {
@@ -127,7 +127,7 @@ final class CameraConfigurationManager {
         }
       }
 
-      if (!prefs.getBoolean(PreferencesActivity.KEY_DISABLE_BARCODE_SCENE_MODE, false)) {
+      if (!prefs.getBoolean(PreferencesActivity.KEY_DISABLE_BARCODE_SCENE_MODE, true)) {
         String sceneMode = findSettableValue(parameters.getSupportedSceneModes(),
                                              Camera.Parameters.SCENE_MODE_BARCODE);
         if (sceneMode != null) {
@@ -135,7 +135,7 @@ final class CameraConfigurationManager {
         }
       }
 
-      if (!prefs.getBoolean(PreferencesActivity.KEY_DISABLE_METERING, false)) {
+      if (!prefs.getBoolean(PreferencesActivity.KEY_DISABLE_METERING, true)) {
         if (parameters.isVideoStabilizationSupported()) {
           Log.i(TAG, "Enabling video stabilization...");
           parameters.setVideoStabilization(true);
@@ -209,7 +209,7 @@ final class CameraConfigurationManager {
     }
 
     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-    if (!prefs.getBoolean(PreferencesActivity.KEY_DISABLE_EXPOSURE, false)) {
+    if (!prefs.getBoolean(PreferencesActivity.KEY_DISABLE_EXPOSURE, true)) {
       if (!safeMode) {
         int minExposure = parameters.getMinExposureCompensation();
         int maxExposure = parameters.getMaxExposureCompensation();
@@ -217,7 +217,7 @@ final class CameraConfigurationManager {
           float step = parameters.getExposureCompensationStep();
           int desiredCompensation;
           if (newSetting) {
-            // Light on; set low exposue compensation
+            // Light on; set low exposure compensation
             desiredCompensation = Math.max((int) (MIN_EXPOSURE_COMPENSATION / step), minExposure);
           } else {
             // Light off; set high compensation
@@ -235,7 +235,7 @@ final class CameraConfigurationManager {
   private static void setBestPreviewFPS(Camera.Parameters parameters) {
     // Required for Glass compatibility; also improves battery/CPU performance a tad
     List<int[]> supportedPreviewFpsRanges = parameters.getSupportedPreviewFpsRange();
-    Log.i(TAG, "Supported FPS ranges: " + supportedPreviewFpsRanges);
+    Log.i(TAG, "Supported FPS ranges: " + toString(supportedPreviewFpsRanges));
     if (supportedPreviewFpsRanges != null && !supportedPreviewFpsRanges.isEmpty()) {
       int[] minimumSuitableFpsRange = null;
       for (int[] fpsRange : supportedPreviewFpsRanges) {
@@ -258,6 +258,24 @@ final class CameraConfigurationManager {
         }
       }
     }
+  }
+
+  // Actually prints the arrays properly:
+  private static String toString(Collection<int[]> arrays) {
+    if (arrays == null || arrays.isEmpty()) {
+      return "[]";
+    }
+    StringBuilder buffer = new StringBuilder();
+    buffer.append('[');
+    Iterator<int[]> it = arrays.iterator();
+    while (it.hasNext()) {
+      buffer.append(Arrays.toString(it.next()));
+      if (it.hasNext()) {
+        buffer.append(", ");
+      }
+    }
+    buffer.append(']');
+    return buffer.toString();
   }
 
   private Point findBestPreviewSizeValue(Camera.Parameters parameters, Point screenResolution) {
