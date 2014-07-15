@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright (C) 2012 ZXing authors
+ Copyright (C) 2014 ZXing authors
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -69,9 +69,11 @@
   <string name="msg_default_time">זמן</string>
   <string name="msg_default_type">סוג</string>
   <string name="msg_encode_contents_failed">לא היתה אפשרות לקודד ברקוד מהנתונים שסופקו.</string>
+  <string name="msg_error">שגיאה</string>
   <string name="msg_google_books">Google</string>
   <string name="msg_google_product">Google</string>
   <string name="msg_intent_failed">סליחה, לא ניתן להפעיל את היישום המבוקש. ייתכן שתוכן הברקוד לא תקין.</string>
+  <string name="msg_invalid_value">ערך לא חוקי</string>
   <string name="msg_redirect">נתב מחדש</string>
   <string name="msg_sbc_book_not_searchable">סליחה, ספר זה אינו ניתן לחיפוש.</string>
   <string name="msg_sbc_failed">סליחה, החיפוש נתקל בבעיה.</string>
@@ -86,6 +88,7 @@
   <string name="msg_unmount_usb">סליחה, כרטיס הזכרון אינו נגיש.</string>
   <string name="preferences_actions_title">כאשר ברקוד נמצא\u2026</string>
   <string name="preferences_auto_focus_title">להשתמש במיקוד האוטומטי</string>
+  <string name="preferences_auto_open_web_title">לפתוח דפי אינטרנט באופן אוטומטי</string>
   <string name="preferences_bulk_mode_summary">סורק ושומר ברקודים באופן רציף</string>
   <string name="preferences_bulk_mode_title">מצב סריקה מרובה</string>
   <string name="preferences_copy_to_clipboard_title">העתק ללוח</string>
@@ -112,6 +115,7 @@
   <string name="preferences_invert_scan_summary">סרוק ברקודים לבן על רקע שחור. לא זמין על התקנים מסוימים.</string>
   <string name="preferences_invert_scan_title">היפוך לסרוק</string>
   <string name="preferences_name">הגדרות</string>
+  <string name="preferences_orientation_title">סיבוב לא אוטומטי</string>
   <string name="preferences_play_beep_title">צפצוף</string>
   <string name="preferences_remember_duplicates_summary">אחסן מספר סריקות של אותו הברקוד בהיסטוריה</string>
   <string name="preferences_remember_duplicates_title">זכור כפילויות</string>
@@ -134,6 +138,4 @@
   <string name="result_wifi">נמצאו הגדרות רשת אל חוטית</string>
   <string name="sbc_name">Google חיפוש ספרים</string>
   <string name="wifi_changing_network">בקשת חיבור לרשת \u2026</string>
-  <string name="wifi_ssid_label">שם רשת</string>
-  <string name="wifi_type_label">סוג</string>
 </resources>

@@ -109,6 +109,7 @@ public final class LocaleManager {
   private LocaleManager() {}
 
   /**
+   * @param context application's {@link Context}
    * @return country-specific TLD suffix appropriate for the current default locale
    *  (e.g. "co.uk" for the United Kingdom)
    */
@@ -118,6 +119,8 @@ public final class LocaleManager {
 
   /**
    * The same as above, but specifically for Google Product Search.
+   *
+   * @param context application's {@link Context}
    * @return The top-level domain to use.
    */
   public static String getProductSearchCountryTLD(Context context) {
@@ -126,6 +129,8 @@ public final class LocaleManager {
 
   /**
    * The same as above, but specifically for Google Book Search.
+   *
+   * @param context application's {@link Context}
    * @return The top-level domain to use.
    */
   public static String getBookSearchCountryTLD(Context context) {
@@ -172,7 +177,7 @@ public final class LocaleManager {
 
   public static String getCountry(Context context) {
     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-    String countryOverride = prefs.getString(PreferencesActivity.KEY_SEARCH_COUNTRY, null);
+    String countryOverride = prefs.getString(PreferencesActivity.KEY_SEARCH_COUNTRY, "-");
     if (countryOverride != null && !countryOverride.isEmpty() && !"-".equals(countryOverride)) {
       return countryOverride;
     }

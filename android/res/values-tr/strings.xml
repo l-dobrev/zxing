@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright (C) 2012 ZXing authors
+ Copyright (C) 2014 ZXing authors
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -69,9 +69,11 @@
   <string name="msg_default_time">Süre</string>
   <string name="msg_default_type">Tür</string>
   <string name="msg_encode_contents_failed">Sağlanan verilerden bir barkod kodlanamadı.</string>
+  <string name="msg_error">Hata</string>
   <string name="msg_google_books">Google</string>
   <string name="msg_google_product">Google</string>
   <string name="msg_intent_failed">Üzgünüz, istenen uygulama başlatılamadı. Barkod içeriği geçersiz olabilir.</string>
+  <string name="msg_invalid_value">Geçersiz değer</string>
   <string name="msg_redirect">Yönlendirme</string>
   <string name="msg_sbc_book_not_searchable">Üzgünüz, bu kitapla ilgili arama yapılamıyor.</string>
   <string name="msg_sbc_failed">Üzgünüz, arama esnasında bir sorun oluştu.</string>
@@ -86,6 +88,7 @@
   <string name="msg_unmount_usb">Lütfen USB depolamayı devre dışı bırakın.</string>
   <string name="preferences_actions_title">Bir barkod bulunduğu zaman\u2026</string>
   <string name="preferences_auto_focus_title">Otomatik odaklama kullanın</string>
+  <string name="preferences_auto_open_web_title">Otomatik olarak web sayfaları açın</string>
   <string name="preferences_bulk_mode_summary">Birden fazla barkodu toplu olarak taramak ve kaydetmek için</string>
   <string name="preferences_bulk_mode_title">Toplu tarama modu</string>
   <string name="preferences_copy_to_clipboard_title">Panoya kopyala</string>
@@ -112,6 +115,7 @@
   <string name="preferences_invert_scan_summary">Siyah zemin üzerine beyaz barkod tarama. Bazı cihazlar mevcut değildir.</string>
   <string name="preferences_invert_scan_title">Tarama haricindekileri</string>
   <string name="preferences_name">Ayarlar</string>
+  <string name="preferences_orientation_title">Otomatik rotasyon yok</string>
   <string name="preferences_play_beep_title">Bip</string>
   <string name="preferences_remember_duplicates_summary">Aynı barkoda ait farklı taramaları kayıtlarda depola</string>
   <string name="preferences_remember_duplicates_title">Aynı barkodları hatırla</string>
@@ -134,6 +138,4 @@
   <string name="result_wifi">Bulunan Wi-Fi konfigürasyonu</string>
   <string name="sbc_name">Google Kitap Arama</string>
   <string name="wifi_changing_network">Ağa bir bağlantı isteğinde\u2026</string>
-  <string name="wifi_ssid_label">Ağ adı</string>
-  <string name="wifi_type_label">Tip</string>
 </resources>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright (C) 2012 ZXing authors
+ Copyright (C) 2014 ZXing authors
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -69,9 +69,11 @@
   <string name="msg_default_time">時間</string>
   <string name="msg_default_type">タイプ</string>
   <string name="msg_encode_contents_failed">このデータからQRコードを作成できませんでした</string>
+  <string name="msg_error">エラー</string>
   <string name="msg_google_books">Google</string>
   <string name="msg_google_product">Google</string>
   <string name="msg_intent_failed">指定されたアプリケーションを起動できませんでした。QRコードの内容が無効である可能性があります。</string>
+  <string name="msg_invalid_value">無効値</string>
   <string name="msg_redirect">リダイレクト</string>
   <string name="msg_sbc_book_not_searchable">この書籍は検索できません</string>
   <string name="msg_sbc_failed">検索中に問題が発生しました</string>
@@ -86,6 +88,7 @@
   <string name="msg_unmount_usb">SDカードにアクセスできません</string>
   <string name="preferences_actions_title">スキャン時の動作</string>
   <string name="preferences_auto_focus_title">ｵｰﾄﾌｫｰｶｽを使用</string>
+  <string name="preferences_auto_open_web_title">自動的にWebを開く</string>
   <string name="preferences_bulk_mode_summary">QRコードを連続スキャンして保存します</string>
   <string name="preferences_bulk_mode_title">連続スキャンモード</string>
   <string name="preferences_copy_to_clipboard_title">ｸﾘｯﾌﾟﾎﾞｰﾄﾞにｺﾋﾟｰ</string>
@@ -109,9 +112,10 @@
   <string name="preferences_front_light_summary">スキャン時のライトを制御します</string>
   <string name="preferences_front_light_title">ライトの制御</string>
   <string name="preferences_general_title">一般設定</string>
-  <string name="preferences_invert_scan_summary">黒地に白のバーコードをスキャン。一部のデバイスでは使用できません。</string>  
+  <string name="preferences_invert_scan_summary">黒地に白のバーコードをスキャン。一部のデバイスでは使用できません。</string>
   <string name="preferences_invert_scan_title">スキャンを反転</string>
   <string name="preferences_name">設定</string>
+  <string name="preferences_orientation_title">自動回転しない</string>
   <string name="preferences_play_beep_title">通知音</string>
   <string name="preferences_remember_duplicates_summary">同じ内容でも重複して履歴に記録します</string>
   <string name="preferences_remember_duplicates_title">重複するスキャン結果の記録</string>
@@ -134,6 +138,4 @@
   <string name="result_wifi">ネットワーク設定がヒットしました</string>
   <string name="sbc_name">Googleブックス</string>
   <string name="wifi_changing_network">ネットワークへ接続しています…</string>
-  <string name="wifi_ssid_label">ネットワーク名</string>
-  <string name="wifi_type_label">タイプ</string>
 </resources>

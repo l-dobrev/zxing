@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright (C) 2012 ZXing authors
+ Copyright (C) 2014 ZXing authors
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -69,9 +69,11 @@
   <string name="msg_default_time">الوقت</string>
   <string name="msg_default_type">النوع</string>
   <string name="msg_encode_contents_failed">تعذر ترميز رمز شريطي من البيانات المتوفرة.</string>
+  <string name="msg_error">خطأ</string>
   <string name="msg_google_books">Google</string>
   <string name="msg_google_product">Google</string>
   <string name="msg_intent_failed">عفوا، تعذر تشغيل التطبيق المطلوب. قد تكون محتويات الرمز الشريطي غير صحيحة.</string>
+  <string name="msg_invalid_value">قيمة غير صالحة</string>
   <string name="msg_redirect">إعادة توجيه</string>
   <string name="msg_sbc_book_not_searchable">عفوا، لا يمكن البحث في هذا الكتاب.</string>
   <string name="msg_sbc_failed">عفوا، حدثت مشكلة في عملية البحث.</string>
@@ -86,6 +88,7 @@
   <string name="msg_unmount_usb">رجاء إيقاف التخزين على USB للمتابعة.</string>
   <string name="preferences_actions_title">عند العثور على رمز شريطي</string>
   <string name="preferences_auto_focus_title">استخدام التركيز التلقائي</string>
+  <string name="preferences_auto_open_web_title">فتح صفحات الويب تلقائيا</string>
   <string name="preferences_bulk_mode_summary">المسح الضوئي وحفظها بشكل مستمر العديد من الرموز الشريطية</string>
   <string name="preferences_bulk_mode_title">جل وضع المسح الضوئي</string>
   <string name="preferences_copy_to_clipboard_title">نسخ إلى الحافظة</string>
@@ -112,6 +115,7 @@
   <string name="preferences_invert_scan_summary">مسح الباركود لأبيض على خلفية سوداء. لا تتوفر على بعض الأجهزة.</string>
   <string name="preferences_invert_scan_title">عكس المسح الضوئي</string>
   <string name="preferences_name">إعدادات</string>
+  <string name="preferences_orientation_title">أي التناوب التلقائي</string>
   <string name="preferences_play_beep_title">صوت تنبيه</string>
   <string name="preferences_remember_duplicates_summary">بفحص مخزن متعددة من نفس الباركود في التاريخ</string>
   <string name="preferences_remember_duplicates_title">تذكر التكرارات</string>
@@ -134,6 +138,4 @@
   <string name="result_wifi">العثور على التكوين اللاسلك</string>
   <string name="sbc_name">البحث في Google Book</string>
   <string name="wifi_changing_network">طلب الاتصال بالشبكة\u2026</string>
-  <string name="wifi_ssid_label">اسم الشبكة</string>
-  <string name="wifi_type_label">نوع</string>
 </resources>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright (C) 2012 ZXing authors
+ Copyright (C) 2014 ZXing authors
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -69,9 +69,11 @@
   <string name="msg_default_time">Čas</string>
   <string name="msg_default_type">Typ</string>
   <string name="msg_encode_contents_failed">Nepodařilo se rozkódovat čárový kód z poskytnutých údajů.</string>
+  <string name="msg_error">Chyba</string>
   <string name="msg_google_books">Google</string>
   <string name="msg_google_product">Google</string>
   <string name="msg_intent_failed">Litujeme, požadovanou aplikaci nelze spustit. Čárový kód je nefunkční.</string>
+  <string name="msg_invalid_value">Neplatná hodnota</string>
   <string name="msg_redirect">Přesměrování</string>
   <string name="msg_sbc_book_not_searchable">Omlouváme se, tato kniha nelze nalézt.</string>
   <string name="msg_sbc_failed">Omlouváme se, narazili jsme na problém.</string>
@@ -86,6 +88,7 @@
   <string name="msg_unmount_usb">Omlouváme se, karta SD není přístupná.</string>
   <string name="preferences_actions_title">Byl nalezen čárový kód.\u2026</string>
   <string name="preferences_auto_focus_title">Automatické zaostření</string>
+  <string name="preferences_auto_open_web_title">Otevřete webové stránky automaticky</string>
   <string name="preferences_bulk_mode_summary">Skenování více čárových kódú bez přerušení, vhodné na dávkové zpracování velkého množství čárových kódú</string>
   <string name="preferences_bulk_mode_title">Dávkový režim skenování</string>
   <string name="preferences_copy_to_clipboard_title">Kopírovat do schránky.</string>
@@ -112,6 +115,7 @@
   <string name="preferences_invert_scan_summary">Skenování čárových kódů pro bílé na černém pozadí. Není k dispozici v některých zařízeních.</string>
   <string name="preferences_invert_scan_title">Obrátit skenování</string>
   <string name="preferences_name">Nastavení</string>
+  <string name="preferences_orientation_title">Žádné automatické otáčení</string>
   <string name="preferences_play_beep_title">Zvuky</string>
   <string name="preferences_remember_duplicates_summary">Duplikáty čárových kódú v historii ukládat samostatně, nebo jako jeden čárový kód</string>
   <string name="preferences_remember_duplicates_title">Pamatovat všechny duplikáty</string>
@@ -134,6 +138,4 @@
   <string name="result_wifi">Nalezeno bezdrátová konfigurace</string>
   <string name="sbc_name">Google Knihy hledání</string>
   <string name="wifi_changing_network">Požadující připojení k síti\u2026</string>
-  <string name="wifi_ssid_label">Jméno sítě</string>
-  <string name="wifi_type_label">Typ</string>
 </resources>

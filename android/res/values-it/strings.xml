@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright (C) 2012 ZXing authors
+ Copyright (C) 2014 ZXing authors
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -69,9 +69,11 @@
   <string name="msg_default_time">Tempo</string>
   <string name="msg_default_type">Tipo</string>
   <string name="msg_encode_contents_failed">Impossibile codificare un codice a barre dai dati forniti.</string>
+  <string name="msg_error">Errore</string>
   <string name="msg_google_books">Google</string>
   <string name="msg_google_product">Google</string>
   <string name="msg_intent_failed">Spiacenti, l\'applicazione richiesta non può essere avviata. Il contenuto del codice a barre può essere non valido.</string>
+  <string name="msg_invalid_value">Valore non valido</string>
   <string name="msg_redirect">Inoltra</string>
   <string name="msg_sbc_book_not_searchable">Spiacenti, questo libro non è ricercabile.</string>
   <string name="msg_sbc_failed">Spiacenti, la ricerca ha avuto un problema.</string>
@@ -86,6 +88,7 @@
   <string name="msg_unmount_usb">Spiacenti, la scheda SD non è accessibile.</string>
   <string name="preferences_actions_title">Quando viene trovato un codice a barre\u2026</string>
   <string name="preferences_auto_focus_title">Utilizzare messa a fuoco automatica</string>
+  <string name="preferences_auto_open_web_title">Aprire le pagine web automaticamente</string>
   <string name="preferences_bulk_mode_summary">Scansiona e salva diversi codici a barre in sequenza</string>
   <string name="preferences_bulk_mode_title">Modalità scansione di gruppo</string>
   <string name="preferences_copy_to_clipboard_title">Copia negli appunti</string>
@@ -112,6 +115,7 @@
   <string name="preferences_invert_scan_summary">Scansione dei codici a barre bianche su sfondo nero. Non disponibile su alcuni dispositivi.</string>
   <string name="preferences_invert_scan_title">Invertire la scansione</string>
   <string name="preferences_name">Impostazioni</string>
+  <string name="preferences_orientation_title">Nessuna rotazione automatica</string>
   <string name="preferences_play_beep_title">Suona</string>
   <string name="preferences_remember_duplicates_summary">Mantieni scansioni multiple del codice a barre nella stessa Cronologia</string>
   <string name="preferences_remember_duplicates_title">Ricorda duplicati</string>
@@ -134,6 +138,4 @@
   <string name="result_wifi">Configurazione WLAN trovata</string>
   <string name="sbc_name">Ricerca Google Book</string>
   <string name="wifi_changing_network">Richiesta di connessione alla rete\u2026</string>
-  <string name="wifi_ssid_label">Nome rete</string>
-  <string name="wifi_type_label">Tipo</string>
 </resources>

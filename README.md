@@ -35,22 +35,16 @@ There are also additional modules which are contributed and/or intermittently ma
 
 | Module       | Description
 | ------------ | -----------
-| actionscript | partial port to Actionscript
 | jruby        | JRuby wrapper
-
-### Deprecated
-
-| Module       | Description
-| ------------ | -----------
-| glass-mirror | partial implementation for the Google Glass Mirror API
 
 ### Available in previous releases
 
 | Module | Description
 | ------ | -----------
-| [cpp](https://github.com/zxing/zxing/tree/00f634024ceeee591f54e6984ea7dd666fab22ae/cpp)    | C++ port
-| [iphone](https://github.com/zxing/zxing/tree/00f634024ceeee591f54e6984ea7dd666fab22ae/iphone) | iPhone client
-| [objc](https://github.com/zxing/zxing/tree/00f634024ceeee591f54e6984ea7dd666fab22ae/objc)   | Objective C port
+| [cpp](https://github.com/zxing/zxing/tree/00f634024ceeee591f54e6984ea7dd666fab22ae/cpp)                   | C++ port
+| [iphone](https://github.com/zxing/zxing/tree/00f634024ceeee591f54e6984ea7dd666fab22ae/iphone)             | iPhone client
+| [objc](https://github.com/zxing/zxing/tree/00f634024ceeee591f54e6984ea7dd666fab22ae/objc)                 | Objective C port
+| [actionscript](https://github.com/zxing/zxing/tree/c1df162b95e07928afbd4830798cc1408af1ac67/actionscript) | Partial ActionScript port
 
 ### Related third-party open source projects
 
@@ -61,10 +55,11 @@ There are also additional modules which are contributed and/or intermittently ma
 
 ### Other third-party open source projects
 
-| Module                                        | Description
-| --------------------------------------------- | -----------
-| [ZBar](http://zbar.sourceforge.net/)          | Decoder in C++, especially for iPhone
-| [Zint](http://sourceforge.net/projects/zint/) | Barcode generator
+| Module                                         | Description
+| ---------------------------------------------- | -----------
+| [Barcode4J](http://barcode4j.sourceforge.net/) | Encoder library in Java
+| [ZBar](http://zbar.sourceforge.net/)           | Decoder in C++, especially for iPhone
+| [Zint](http://sourceforge.net/projects/zint/)  | Barcode generator
 
 ## Links
 
@@ -82,6 +77,7 @@ on StackOverflow](http://stackoverflow.com/questions/tagged/zxing).
 ## Etcetera
 
 [![Build Status](https://travis-ci.org/zxing/zxing.png?branch=master)](https://travis-ci.org/zxing/zxing)
+[![Coverity Status](https://scan.coverity.com/projects/1924/badge.svg)](https://scan.coverity.com/projects/1924)
 
 QR code is trademarked by Denso Wave, inc. Thanks to Haase & Martin OHG for contributing the logo.
 

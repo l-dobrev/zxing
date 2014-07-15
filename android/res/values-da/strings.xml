@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright (C) 2012 ZXing authors
+ Copyright (C) 2014 ZXing authors
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -69,9 +69,11 @@
   <string name="msg_default_time">Tid</string>
   <string name="msg_default_type">Type</string>
   <string name="msg_encode_contents_failed">Kunne ikke indkode en stregkode fra oplysningerne givet.</string>
+  <string name="msg_error">Fejl</string>
   <string name="msg_google_books">Google</string>
   <string name="msg_google_product">Google</string>
   <string name="msg_intent_failed">Beklager, den ønskede applikation kunne ikke blive startet. Stregkodeindholdet er måsket ugyldigt.</string>
+  <string name="msg_invalid_value">Ugyldig værdi</string>
   <string name="msg_redirect">Omdirigér</string>
   <string name="msg_sbc_book_not_searchable">Beklager, denne bog er ikke søgbar.</string>
   <string name="msg_sbc_failed">Beklager, søgningen er stødt på et problem.</string>
@@ -86,6 +88,7 @@
   <string name="msg_unmount_usb">Beklager, SD-kortet er ikke tilgængelig.</string>
   <string name="preferences_actions_title">Når en stregkode er fundet\u2026</string>
   <string name="preferences_auto_focus_title">Brug autofokus</string>
+  <string name="preferences_auto_open_web_title">Åbn websider automatisk</string>
   <string name="preferences_bulk_mode_summary">Scan og gem mange stregkoder uden afbrydelser</string>
   <string name="preferences_bulk_mode_title">Massescanningstilstand</string>
   <string name="preferences_copy_to_clipboard_title">Kopiér til udklipsholder</string>
@@ -112,6 +115,7 @@
   <string name="preferences_invert_scan_summary">Scan for hvide stregkoder på sort baggrund. Ikke tilgængelig på nogle enheder.</string>
   <string name="preferences_invert_scan_title">Inverter scanning</string>
   <string name="preferences_name">Indstillinger</string>
+  <string name="preferences_orientation_title">Ingen automatisk rotation</string>
   <string name="preferences_play_beep_title">Bip</string>
   <string name="preferences_remember_duplicates_summary">Gem flere scanninger af de samme stregkoder i Historik</string>
   <string name="preferences_remember_duplicates_title">Husk dubletter</string>
@@ -134,6 +138,4 @@
   <string name="result_wifi">WLAN-forbindelse fundet</string>
   <string name="sbc_name">Google Bøger-søgning</string>
   <string name="wifi_changing_network">Anmoder om tilslutning til netværk\u2026</string>
-  <string name="wifi_ssid_label">Netværksnavn</string>
-  <string name="wifi_type_label">Type</string>
 </resources>

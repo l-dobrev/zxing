@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright (C) 2012 ZXing authors
+ Copyright (C) 2014 ZXing authors
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -69,9 +69,11 @@
   <string name="msg_default_time">Време</string>
   <string name="msg_default_type">Тип</string>
   <string name="msg_encode_contents_failed">Неуспешно кодиране на подадените данни.</string>
+  <string name="msg_error">Грешка</string>
   <string name="msg_google_books">Google</string>
   <string name="msg_google_product">Google</string>
   <string name="msg_intent_failed">Съжаляваме, но нужното приложение не успя да се стартира. Възможно е баркода или съдържанието му да са невалидни.</string>
+  <string name="msg_invalid_value">Невалидна стойност</string>
   <string name="msg_redirect">Пренасочване</string>
   <string name="msg_sbc_book_not_searchable">Съжаляваме, тази книга не може да се претърсва.</string>
   <string name="msg_sbc_failed">Съжаляваме, срещнахме проблем при търсенето.</string>
@@ -86,6 +88,7 @@
   <string name="msg_unmount_usb">Съжаляваме, но SD картата не е достъпна.</string>
   <string name="preferences_actions_title">При прочитане на баркод\u2026</string>
   <string name="preferences_auto_focus_title">Използване на автоматично фокусиране</string>
+  <string name="preferences_auto_open_web_title">Отворете уеб страници автоматично</string>
   <string name="preferences_bulk_mode_summary">Сканирай и запомняй множество баркодове без прекъсване</string>
   <string name="preferences_bulk_mode_title">Масово сканиране</string>
   <string name="preferences_copy_to_clipboard_title">Копиране в клипборда</string>
@@ -112,6 +115,7 @@
   <string name="preferences_invert_scan_summary">Сканиране за бели баркодове на черен фон. Не е на разположение на някои устройства.</string>
   <string name="preferences_invert_scan_title">Обръщане на сканиране</string>
   <string name="preferences_name">Настройки</string>
+  <string name="preferences_orientation_title">Без автоматично завъртане</string>
   <string name="preferences_play_beep_title">Издаване на звук</string>
   <string name="preferences_remember_duplicates_summary">Записвай множество сканирания на един и същи баркод в историята</string>
   <string name="preferences_remember_duplicates_title">Запомняне на повторенията</string>
@@ -134,6 +138,4 @@
   <string name="result_wifi">Намерих настройки за безжична мрежа</string>
   <string name="sbc_name">Гугъл търсене на книга</string>
   <string name="wifi_changing_network">Запитване свързване към мрежата\u2026</string>
-  <string name="wifi_ssid_label">Име на мрежата</string>
-  <string name="wifi_type_label">Тип</string>
 </resources>

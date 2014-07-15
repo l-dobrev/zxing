@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright (C) 2012 ZXing authors
+ Copyright (C) 2014 ZXing authors
 
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -69,9 +69,11 @@
   <string name="msg_default_time">Hora</string>
   <string name="msg_default_type">Tipus</string>
   <string name="msg_encode_contents_failed">No es pot codificar un codi de barres amb les dades proporcionades.</string>
+  <string name="msg_error">Error</string>
   <string name="msg_google_books">Google</string>
   <string name="msg_google_product">Google</string>
   <string name="msg_intent_failed">No es pot executar l\'aplicació sol·licitada. És possible que el contingut del codi de barres no sigui vàlid.</string>
+  <string name="msg_invalid_value">Valor no vàlid</string>
   <string name="msg_redirect">Redirecciona</string>
   <string name="msg_sbc_book_not_searchable">No es pot cercar en aquest llibre.</string>
   <string name="msg_sbc_failed">Hi ha hagut un problema en fer la cerca.</string>
@@ -86,6 +88,7 @@
   <string name="msg_unmount_usb">La targeta SD no es troba disponible.</string>
   <string name="preferences_actions_title">En trobar un codi de barres\u2026</string>
   <string name="preferences_auto_focus_title">Utilitzeu l\'enfocament automàtic</string>
+  <string name="preferences_auto_open_web_title">Obrir pàgines web automàticament</string>
   <string name="preferences_bulk_mode_summary">Escaneja i desa molts codis de barres de forma contínua</string>
   <string name="preferences_bulk_mode_title">Mode d\'escaneig en bloc</string>
   <string name="preferences_copy_to_clipboard_title">Copia al porta-retalls</string>
@@ -112,6 +115,7 @@
   <string name="preferences_invert_scan_summary">Escanejar codis de barres blanques sobre fons negre. No disponible en alguns dispositius.</string>
   <string name="preferences_invert_scan_title">Invertir exploració</string>
   <string name="preferences_name">Configuració</string>
+  <string name="preferences_orientation_title">No hi ha rotació automàtica</string>
   <string name="preferences_play_beep_title">Beep</string>
   <string name="preferences_remember_duplicates_summary">Desa diversos escanejos del mateix codi de barres a l\'historial</string>
   <string name="preferences_remember_duplicates_title">Recorda els duplicats</string>
@@ -134,6 +138,4 @@
   <string name="result_wifi">S\'ha trobat configuració WLAN</string>
   <string name="sbc_name">Cerca a Google Llibres</string>
   <string name="wifi_changing_network">Sollicitant connexió a la xarxa\u2026</string>
-  <string name="wifi_ssid_label">Nom de la xarxa</string>
-  <string name="wifi_type_label">Tipus</string>
 </resources>
