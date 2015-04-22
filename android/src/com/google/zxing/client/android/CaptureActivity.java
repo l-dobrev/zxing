@@ -176,16 +176,6 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 
     resetStatusView();
 
-    SurfaceView surfaceView = (SurfaceView) findViewById(R.id.preview_view);
-    SurfaceHolder surfaceHolder = surfaceView.getHolder();
-    if (hasSurface) {
-      // The activity was paused but not stopped, so the surface still exists. Therefore
-      // surfaceCreated() won't be called, so init the camera here.
-      initCamera(surfaceHolder);
-    } else {
-      // Install the callback and wait for surfaceCreated() to init the camera.
-      surfaceHolder.addCallback(this);
-    }
 
     beepManager.updatePrefs();
     ambientLightManager.start(cameraManager);
@@ -198,6 +188,8 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         && (intent == null || intent.getBooleanExtra(Intents.Scan.SAVE_HISTORY, true));
 
     source = IntentSource.NONE;
+    sourceUrl = null;
+    scanFromWebPageManager = null;
     decodeFormats = null;
     characterSet = null;
 
@@ -259,6 +251,17 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
       characterSet = intent.getStringExtra(Intents.Scan.CHARACTER_SET);
 
     }
+
+    SurfaceView surfaceView = (SurfaceView) findViewById(R.id.preview_view);
+    SurfaceHolder surfaceHolder = surfaceView.getHolder();
+    if (hasSurface) {
+      // The activity was paused but not stopped, so the surface still exists. Therefore
+      // surfaceCreated() won't be called, so init the camera here.
+      initCamera(surfaceHolder);
+    } else {
+      // Install the callback and wait for surfaceCreated() to init the camera.
+      surfaceHolder.addCallback(this);
+    }
   }
 
   private int getCurrentOrientation() {
@@ -294,7 +297,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     ambientLightManager.stop();
     beepManager.close();
     cameraManager.closeDriver();
-    historyManager = null;
+    //historyManager = null; // Keep for onActivityResult
     if (!hasSurface) {
       SurfaceView surfaceView = (SurfaceView) findViewById(R.id.preview_view);
       SurfaceHolder surfaceHolder = surfaceView.getHolder();
@@ -681,6 +684,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 
       if (scanFromWebPageManager != null && scanFromWebPageManager.isScanFromWebPage()) {
         String replyURL = scanFromWebPageManager.buildReplyURL(rawResult, resultHandler);
+        scanFromWebPageManager = null;
         sendReplyMessage(R.id.launch_product_query, replyURL, resultDurationMS);
       }
       
