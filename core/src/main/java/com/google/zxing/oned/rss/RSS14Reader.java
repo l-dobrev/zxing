@@ -23,6 +23,7 @@ import com.google.zxing.Result;
 import com.google.zxing.ResultPoint;
 import com.google.zxing.ResultPointCallback;
 import com.google.zxing.common.BitArray;
+import com.google.zxing.common.detector.MathUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -209,7 +210,7 @@ public final class RSS14Reader extends AbstractRSSReader {
     }
 
     int numModules = outsideChar ? 16 : 15;
-    float elementWidth = (float) count(counters) / (float) numModules;
+    float elementWidth = MathUtils.sum(counters) / (float) numModules;
 
     int[] oddCounts = this.getOddCounts();
     int[] evenCounts = this.getEvenCounts();
@@ -217,7 +218,7 @@ public final class RSS14Reader extends AbstractRSSReader {
     float[] evenRoundingErrors = this.getEvenRoundingErrors();
 
     for (int i = 0; i < counters.length; i++) {
-      float value = (float) counters[i] / elementWidth;
+      float value = counters[i] / elementWidth;
       int count = (int) (value + 0.5f); // Round
       if (count < 1) {
         count = 1;
@@ -250,7 +251,7 @@ public final class RSS14Reader extends AbstractRSSReader {
       evenChecksumPortion += evenCounts[i];
       evenSum += evenCounts[i];
     }
-    int checksumPortion = oddChecksumPortion + 3*evenChecksumPortion;
+    int checksumPortion = oddChecksumPortion + 3 * evenChecksumPortion;
 
     if (outsideChar) {
       if ((oddSum & 0x01) != 0 || oddSum > 12 || oddSum < 4) {
@@ -355,11 +356,8 @@ public final class RSS14Reader extends AbstractRSSReader {
 
   private void adjustOddEvenCounts(boolean outsideChar, int numModules) throws NotFoundException {
 
-    int oddSum = count(getOddCounts());
-    int evenSum = count(getEvenCounts());
-    int mismatch = oddSum + evenSum - numModules;
-    boolean oddParityBad = (oddSum & 0x01) == (outsideChar ? 1 : 0);
-    boolean evenParityBad = (evenSum & 0x01) == 1;
+    int oddSum = MathUtils.sum(getOddCounts());
+    int evenSum = MathUtils.sum(getEvenCounts());
 
     boolean incrementOdd = false;
     boolean decrementOdd = false;
@@ -390,6 +388,9 @@ public final class RSS14Reader extends AbstractRSSReader {
       }
     }
 
+    int mismatch = oddSum + evenSum - numModules;
+    boolean oddParityBad = (oddSum & 0x01) == (outsideChar ? 1 : 0);
+    boolean evenParityBad = (evenSum & 0x01) == 1;
     /*if (mismatch == 2) {
       if (!(oddParityBad && evenParityBad)) {
         throw ReaderException.getInstance();
@@ -402,7 +403,7 @@ public final class RSS14Reader extends AbstractRSSReader {
       }
       incrementOdd = true;
       incrementEven = true;
-    } else */if (mismatch == 1) {
+    } else */ if (mismatch == 1) {
       if (oddParityBad) {
         if (evenParityBad) {
           throw NotFoundException.getNotFoundInstance();

@@ -16,12 +16,12 @@
 
 package com.google.zxing.oned;
 
+import com.google.zxing.common.BitMatrixTestCase;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.google.zxing.BarcodeFormat;
-import com.google.zxing.ReaderException;
 import com.google.zxing.Result;
 import com.google.zxing.Writer;
 import com.google.zxing.WriterException;
@@ -57,7 +57,7 @@ public class Code128WriterTestCase extends Assert {
 
     BitMatrix result = writer.encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
 
-    String actual = matrixToString(result);
+    String actual = BitMatrixTestCase.matrixToString(result);
     assertEquals(expected, actual);
   }
 
@@ -69,7 +69,7 @@ public class Code128WriterTestCase extends Assert {
 
     BitMatrix result = writer.encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
 
-    String actual = matrixToString(result);
+    String actual = BitMatrixTestCase.matrixToString(result);
     assertEquals(expected, actual);
   }
 
@@ -81,12 +81,12 @@ public class Code128WriterTestCase extends Assert {
 
     BitMatrix result = writer.encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
 
-    String actual = matrixToString(result);
+    String actual = BitMatrixTestCase.matrixToString(result);
     assertEquals(expected, actual);
   }
 
   @Test
-  public void testRoundtrip() throws WriterException, ReaderException {
+  public void testRoundtrip() throws Exception {
     String toEncode = "\u00f1" + "10958" + "\u00f1" + "17160526";
     String expected = "1095817160526";
 
@@ -105,15 +105,9 @@ public class Code128WriterTestCase extends Assert {
 
     BitMatrix result = writer.encode(toEncode, BarcodeFormat.CODE_128, 0, 0);
 
-    String actual = matrixToString(result);
+    String actual = BitMatrixTestCase.matrixToString(result);
     assertEquals(expected, actual);
   }
 
-  private static String matrixToString(BitMatrix result) {
-    StringBuilder builder = new StringBuilder(result.getWidth());
-    for (int i = 0; i < result.getWidth(); i++) {
-      builder.append(result.get(i, 0) ? '1' : '0');
-    }
-    return builder.toString();
-  }
+
 }

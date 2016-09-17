@@ -42,6 +42,9 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.Charset;
 
+/**
+ * Main test app activity.
+ */
 public final class ZXingTestActivity extends Activity {
 
   private static final String TAG = ZXingTestActivity.class.getSimpleName();
@@ -103,8 +106,7 @@ public final class ZXingTestActivity extends Activity {
   public void onActivityResult(int requestCode, int resultCode, Intent intent) {
     IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
     if (result != null) {
-      String contents = result.getContents();
-      if (contents != null) {
+      if (result.getContents() != null) {
         showDialog(R.string.result_succeeded, result.toString());
       } else {
         showDialog(R.string.result_failed, getString(R.string.result_failed_why));

@@ -19,23 +19,52 @@ import com.google.zxing.FormatException;
 import com.google.zxing.ResultPoint;
 import com.google.zxing.aztec.AztecDetectorResult;
 import com.google.zxing.common.BitMatrix;
+import com.google.zxing.common.DecoderResult;
 import org.junit.Test;
 import org.junit.Assert;
 
 public final class DecoderTest extends Assert {
 
   private static final ResultPoint[] NO_POINTS = new ResultPoint[0];
+  
+  @Test
+  public void testAztecResult() throws FormatException {
+    BitMatrix matrix = BitMatrix.parse(
+        "X X X X X     X X X       X X X     X X X     \n" +
+        "X X X     X X X     X X X X     X X X     X X \n" +
+        "  X   X X       X   X   X X X X     X     X X \n" +
+        "  X   X X     X X     X     X   X       X   X \n" +
+        "  X X   X X         X               X X     X \n" +
+        "  X X   X X X X X X X X X X X X X X X     X   \n" +
+        "  X X X X X                       X   X X X   \n" +
+        "  X   X   X   X X X X X X X X X   X X X   X X \n" +
+        "  X   X X X   X               X   X X       X \n" +
+        "  X X   X X   X   X X X X X   X   X X X X   X \n" +
+        "  X X   X X   X   X       X   X   X   X X X   \n" +
+        "  X   X   X   X   X   X   X   X   X   X   X   \n" +
+        "  X X X   X   X   X       X   X   X X   X X   \n" +
+        "  X X X X X   X   X X X X X   X   X X X   X X \n" +
+        "X X   X X X   X               X   X   X X   X \n" +
+        "  X       X   X X X X X X X X X   X   X     X \n" +
+        "  X X   X X                       X X   X X   \n" +
+        "  X X X   X X X X X X X X X X X X X X   X X   \n" +
+        "X     X     X     X X   X X               X X \n" +
+        "X   X X X X X   X X X X X     X   X   X     X \n" +
+        "X X X   X X X X           X X X       X     X \n" +
+        "X X     X X X     X X X X     X X X     X X   \n" +
+        "    X X X     X X X       X X X     X X X X   \n",
+        "X ", "  ");
+    AztecDetectorResult r = new AztecDetectorResult(matrix, NO_POINTS, false, 30, 2);
+    DecoderResult result = new Decoder().decode(r);
+    assertEquals("88888TTTTTTTTTTTTTTTTTTTTTTTTTTTTTT", result.getText());
+    assertArrayEquals(
+        new byte[] {-11, 85, 85, 117, 107, 90, -42, -75, -83, 107,
+            90, -42, -75, -83, 107, 90, -42, -75, -83, 107,
+            90, -42, -80},
+        result.getRawBytes());
+    assertEquals(180, result.getNumBits());
+  }
 
-  /**
-   * throws
-   * <pre>com.google.zxing.FormatException: com.google.zxing.common.reedsolomon.ReedSolomonException: Error locator degree does not match number of roots
-   *	at com.google.zxing.common.reedsolomon.ReedSolomonDecoder.findErrorLocations(ReedSolomonDecoder.java:158)
-   *	at com.google.zxing.common.reedsolomon.ReedSolomonDecoder.decode(ReedSolomonDecoder.java:77)
-   *	at com.google.zxing.aztec.decoder.Decoder.correctBits(Decoder.java:231)
-   *	at com.google.zxing.aztec.decoder.Decoder.decode(Decoder.java:77)
-   *	at com.google.zxing.aztec.decoder.DecoderTest.testDecodeBug1(DecoderTest.java:66)</pre>
-   * @throws FormatException
-   */
   @Test(expected = FormatException.class)
   public void testDecodeTooManyErrors() throws FormatException {
     BitMatrix matrix = BitMatrix.parse(""

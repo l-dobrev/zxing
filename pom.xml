@@ -19,7 +19,7 @@
 
   <groupId>com.google.zxing</groupId>
   <artifactId>zxing-parent</artifactId>
-  <version>3.2.2-SNAPSHOT</version>
+  <version>3.3.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <dependencyManagement>
@@ -95,9 +95,11 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>1.7</java.version>
     <maven.version.min>3.2.1</maven.version.min>
+    <proguard.version>5.2.1</proguard.version>
+    <proguard.plugin.version>2.0.13</proguard.plugin.version>
     <slf4j.version>1.7.21</slf4j.version>
     <!-- This can't reference project.version as some subprojects version differently -->
-    <zxing.version>3.2.2-SNAPSHOT</zxing.version>
+    <zxing.version>3.3.1-SNAPSHOT</zxing.version>
   </properties>
 
   <build>
@@ -181,7 +183,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
-          <version>3.0.0</version>
+          <version>3.0.1</version>
           <executions>
             <execution>
               <id>attach-sources</id>
@@ -194,9 +196,11 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>2.10.3</version>
+          <version>2.10.4</version>
           <configuration>
             <javadocVersion>${java.version}</javadocVersion>
+            <quiet>true</quiet>
+            <notimestamp>true</notimestamp>
           </configuration>
           <executions>
             <execution>
@@ -216,10 +220,6 @@
               <fileset>
                 <directory>.</directory>
                 <includes>
-                  <include>**/bin/**</include>
-                  <include>**/gen/**</include>
-                  <include>**/libs/*</include>
-                  <include>**/out/**</include>
                   <include>**/classes/**</include>
                   <include>**/gwt-unitCache/**</include>
                   <include>**/webapp/generator/**</include>
@@ -240,12 +240,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-resources-plugin</artifactId>
-          <version>3.0.0</version>
+          <version>3.0.1</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>2.6</version>
+          <version>3.0.2</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -287,7 +287,7 @@
             <dependency>
               <groupId>org.apache.maven.scm</groupId>
               <artifactId>maven-scm-provider-gitexe</artifactId>
-              <version>1.9.4</version>
+              <version>1.9.5</version>
             </dependency>
           </dependencies>
           <configuration>
@@ -300,7 +300,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-scm-plugin</artifactId>
-          <version>1.9.4</version>
+          <version>1.9.5</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -343,18 +343,13 @@
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-dependency-plugin</artifactId>
-          <version>2.10</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-war-plugin</artifactId>
-          <version>2.6</version>
+          <version>3.0.0</version>
         </plugin>
         <plugin>
           <groupId>com.simpligility.maven.plugins</groupId>
           <artifactId>android-maven-plugin</artifactId>
-          <version>4.4.1</version>
+          <version>4.4.3</version>
           <extensions>true</extensions>
           <executions>
             <execution>
@@ -390,7 +385,43 @@
             <dependency>
               <groupId>net.sf.proguard</groupId>
               <artifactId>proguard-base</artifactId>
-              <version>5.2.1</version>
+              <version>${proguard.version}</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+        <plugin>
+          <groupId>com.github.wvengen</groupId>
+          <artifactId>proguard-maven-plugin</artifactId>
+          <version>${proguard.plugin.version}</version>
+          <executions>
+            <execution>
+              <phase>package</phase>
+              <goals>
+                <goal>proguard</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <proguardVersion>${proguard.version}</proguardVersion>
+            <addMavenDescriptor>true</addMavenDescriptor>
+            <obfuscate>false</obfuscate>
+            <options>
+              <option>-target ${java.version}</option>
+              <option>-dontshrink</option>
+              <option>-keep class * { !private *; }</option>
+              <option>-verbose</option>
+              <option>-optimizationpasses 3</option>
+            </options>
+            <libs>
+              <lib>${java.home}/lib/rt.jar</lib>
+            </libs>
+          </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>net.sf.proguard</groupId>
+              <artifactId>proguard-base</artifactId>
+              <version>${proguard.version}</version>
+              <scope>runtime</scope>
             </dependency>
           </dependencies>
         </plugin>
@@ -398,6 +429,7 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
           <version>3.5.1</version>
+          <inherited>false</inherited>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -407,17 +439,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
-          <version>1.10</version>
-        </plugin>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>findbugs-maven-plugin</artifactId>
-          <version>3.0.3</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-jxr-plugin</artifactId>
-          <version>2.5</version>
+          <version>1.12</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -426,7 +448,7 @@
           <configuration>
             <configLocation>src/checkstyle/checkstyle.xml</configLocation>
             <!-- Android generated files -->
-            <excludes>**/R.java,**/BuildConfig.java</excludes>
+            <excludes>**/R.java,**/BuildConfig.java,**/Manifest.java</excludes>
           </configuration>
           <executions>
             <execution>
@@ -437,11 +459,18 @@
               </goals>
             </execution>
           </executions>
+          <dependencies>
+            <dependency>
+              <groupId>com.puppycrawl.tools</groupId>
+              <artifactId>checkstyle</artifactId>
+              <version>6.19</version>
+            </dependency>
+          </dependencies>
         </plugin>
         <plugin>
           <groupId>org.apache.rat</groupId>
           <artifactId>apache-rat-plugin</artifactId>
-          <version>0.11</version>
+          <version>0.12</version>
           <configuration>
             <excludes>
               <exclude>**/.*</exclude>
@@ -462,6 +491,7 @@
               <exclude>**/symbolMaps/**</exclude>
               <exclude>**/target/**</exclude>
               <exclude>**/dependency-reduced-pom.xml</exclude>
+              <exclude>docs/</exclude>
               <exclude>private/**</exclude>
               <exclude>CHANGES</exclude>
               <excludeSubProjects>false</excludeSubProjects>
@@ -475,20 +505,6 @@
               </goals>
             </execution>
           </executions>
-          <!-- workaround for Xerces warnings -->
-          <dependencies>
-            <dependency>
-              <groupId>org.apache.maven.doxia</groupId>
-              <artifactId>doxia-core</artifactId>
-              <version>1.6</version>
-              <exclusions>
-                <exclusion>
-                  <groupId>xerces</groupId>
-                  <artifactId>xercesImpl</artifactId>
-                </exclusion>
-              </exclusions>
-            </dependency>
-          </dependencies>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
@@ -507,7 +523,7 @@
         <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
-          <version>0.7.6.201602180812</version>
+          <version>0.7.7.201606060606</version>
           <executions>
             <execution>
               <goals>
@@ -532,15 +548,16 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
+        <inherited>false</inherited>
         <reportSets>
           <reportSet>
             <reports>
               <!-- <report>cim</report> -->
               <!-- <report>dependencies</report> -->
-              <report>dependency-convergence</report>
+              <!-- <report>dependency-convergence</report> -->
               <report>dependency-info</report>
               <report>dependency-management</report>
-              <report>distribution-management</report>
+              <!-- <report>distribution-management</report> -->
               <report>index</report>
               <report>issue-tracking</report>
               <report>license</report>
@@ -550,7 +567,7 @@
               <!-- <report>plugins</report> -->
               <!-- <report>project-team</report> -->
               <report>scm</report>
-              <report>summary</report>
+              <!-- <report>summary</report> -->
             </reports>
           </reportSet>
         </reportSets>
@@ -558,37 +575,71 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
+        <inherited>false</inherited>
         <reportSets>
           <reportSet>
             <id>aggregate</id>
+            <inherited>false</inherited>
             <reports>
               <report>aggregate</report>
-              <report>test-aggregate</report>
             </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-        <configuration>
-          <threshold>Normal</threshold>
-          <effort>Max</effort>
-          <xmlOutput>true</xmlOutput>
-          <xmlOutputDirectory>target/site</xmlOutputDirectory>
-          <excludeFilterFile>src/findbugs/excludes.xml</excludeFilterFile>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jxr-plugin</artifactId>
-        <reportSets>
-          <reportSet>
-            <id>aggregate</id>
-            <reports>
-              <report>aggregate</report>
-              <report>test-aggregate</report>
-            </reports>
+            <configuration>
+              <excludePackageNames>com.google.zxing.client.android*,com.google.zxing.client.glass*,com.google.zxing.web.generator*</excludePackageNames>
+              <groups>
+                <group>
+                  <title>Common support code</title>
+                  <packages>com.google.zxing:com.google.zxing.common*:com.google.zxing.client.result*</packages>
+                </group>
+                <group>
+                  <title>One-dimensional barcode (UPC, EAN, etc) support</title>
+                  <packages>com.google.zxing.oned</packages>
+                </group>
+                <group>
+                  <title>QR Code support</title>
+                  <packages>com.google.zxing.qrcode*</packages>
+                </group>
+                <group>
+                  <title>Data Matrix support</title>
+                  <packages>com.google.zxing.datamatrix*</packages>
+                </group>
+                <group>
+                  <title>PDF417 barcode support</title>
+                  <packages>com.google.zxing.pdf417*</packages>
+                </group>
+                <group>
+                  <title>Aztec barcode support</title>
+                  <packages>com.google.zxing.aztec*</packages>
+                </group>
+                <group>
+                  <title>MaxiCode support</title>
+                  <packages>com.google.zxing.maxicode*</packages>
+                </group>
+                <group>
+                  <title>RSS barcode support</title>
+                  <packages>com.google.zxing.oned.rss*</packages>
+                </group>
+                <group>
+                  <title>Multiple barcode scanning support</title>
+                  <packages>com.google.zxing.multi*</packages>
+                </group>
+                <group>
+                  <title>Web-based decoder app</title>
+                  <packages>com.google.zxing.web</packages>
+                </group>
+                <group>
+                  <title>Web-based App Engine encoder app</title>
+                  <packages>com.google.zxing.web.generator*</packages>
+                </group>
+                <group>
+                  <title>JavaSE utilities and support</title>
+                  <packages>com.google.zxing.client.j2se*</packages>
+                </group>
+                <group>
+                  <title>Android Intent integration</title>
+                  <packages>com.google.zxing.integration.android*</packages>
+                </group>
+              </groups>
+            </configuration>
           </reportSet>
         </reportSets>
       </plugin>
@@ -598,12 +649,12 @@
 
   <name>ZXing</name>
   <description>Parent Maven project for ZXing modules</description>
-  <url>http://github.com/zxing/zxing</url>
+  <url>https://github.com/zxing/zxing</url>
   <inceptionYear>2007</inceptionYear>
   <licenses>
     <license>
       <name>The Apache Software License, Version 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
@@ -624,13 +675,13 @@
     </mailingList>
     <mailingList>
       <name>StackOverflow tag</name>
-      <archive>http://stackoverflow.com/questions/tagged/zxing</archive>
+      <archive>https://stackoverflow.com/questions/tagged/zxing</archive>
     </mailingList>
   </mailingLists>
   <scm>
     <connection>scm:git:https://github.com/zxing/zxing.git</connection>
     <developerConnection>scm:git:https://github.com/zxing/zxing.git</developerConnection>
-    <url>scm:git:https://github.com/zxing/zxing.git</url>
+    <url>https://github.com/zxing/zxing</url>
     <tag>HEAD</tag>
   </scm>
 
@@ -652,7 +703,7 @@
     <site>
       <id>zxing.website</id>
       <name>ZXing documentation</name>
-      <url>http://zxing.github.io/zxing/</url>
+      <url>file:docs/</url>
     </site>
   </distributionManagement>
 
@@ -720,6 +771,10 @@
     </profile>
     <profile>
       <id>travis</id>
+      <properties>
+        <!-- dummy to make @{argLine} evaluate when not set by jacoco -->
+        <argLine />
+      </properties>
       <build>
         <plugins>
           <plugin>
@@ -727,7 +782,7 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
               <!-- Limit memory for unit tests in Travis -->
-              <argLine>-Xmx512m</argLine>
+              <argLine>@{argLine} -Xmx512m</argLine>
               <forkCount>1</forkCount>
             </configuration>
           </plugin>
