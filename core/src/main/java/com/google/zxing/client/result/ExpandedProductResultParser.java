@@ -77,56 +77,56 @@ public final class ExpandedProductResultParser extends ResultParser {
       String value = findValue(i, rawText);
       i += value.length();
 
-      if (ai.equals("00")) {
+      if ("00".equals(ai)) {
         sscc = value;
-      } else if (ai.equals("01")) {
+      } else if ("01".equals(ai)) {
         productID = value;
-      } else if (ai.equals("10")) {
+      } else if ("10".equals(ai)) {
         lotNumber = value;
-      } else if (ai.equals("11")) {
+      } else if ("11".equals(ai)) {
         productionDate = value;
-      } else if (ai.equals("13")) {
+      } else if ("13".equals(ai)) {
         packagingDate = value;
-      } else if (ai.equals("15")) {
+      } else if ("15".equals(ai)) {
         bestBeforeDate = value;
-      } else if (ai.equals("17")) {
+      } else if ("17".equals(ai)) {
         expirationDate = value;
-      } else if (ai.equals("3100")
-              || ai.equals("3101")
-              || ai.equals("3102")
-              || ai.equals("3103")
-              || ai.equals("3104")
-              || ai.equals("3105")
-              || ai.equals("3106")
-              || ai.equals("3107")
-              || ai.equals("3108")
-              || ai.equals("3109")) {
+      } else if ("3100".equals(ai)
+              || "3101".equals(ai)
+              || "3102".equals(ai)
+              || "3103".equals(ai)
+              || "3104".equals(ai)
+              || "3105".equals(ai)
+              || "3106".equals(ai)
+              || "3107".equals(ai)
+              || "3108".equals(ai)
+              || "3109".equals(ai)) {
         weight = value;
         weightType = ExpandedProductParsedResult.KILOGRAM;
         weightIncrement = ai.substring(3);
-      } else if (ai.equals("3200")
-              || ai.equals("3201")
-              || ai.equals("3202")
-              || ai.equals("3203")
-              || ai.equals("3204")
-              || ai.equals("3205")
-              || ai.equals("3206")
-              || ai.equals("3207")
-              || ai.equals("3208")
-              || ai.equals("3209")) {
+      } else if ("3200".equals(ai)
+              || "3201".equals(ai)
+              || "3202".equals(ai)
+              || "3203".equals(ai)
+              || "3204".equals(ai)
+              || "3205".equals(ai)
+              || "3206".equals(ai)
+              || "3207".equals(ai)
+              || "3208".equals(ai)
+              || "3209".equals(ai)) {
         weight = value;
         weightType = ExpandedProductParsedResult.POUND;
         weightIncrement = ai.substring(3);
-      } else if (ai.equals("3920")
-              || ai.equals("3921")
-              || ai.equals("3922")
-              || ai.equals("3923")) {
+      } else if ("3920".equals(ai)
+              || "3921".equals(ai)
+              || "3922".equals(ai)
+              || "3923".equals(ai)) {
         price = value;
         priceIncrement = ai.substring(3);
-      } else if (ai.equals("3930")
-              || ai.equals("3931")
-              || ai.equals("3932")
-              || ai.equals("3933")) {
+      } else if ("3930".equals(ai)
+              || "3931".equals(ai)
+              || "3932".equals(ai)
+              || "3933".equals(ai)) {
         if (value.length() < 4) {
           // The value must have more of 3 symbols (3 for currency and
           // 1 at least for the price)

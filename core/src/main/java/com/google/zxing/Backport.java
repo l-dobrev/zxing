@@ -28,7 +28,7 @@ import java.nio.charset.Charset;
  * 
  * @author Lachezar Dobrev
  */
-public class Backport {
+public final class Backport {
   private Backport() {
     // Static methods holder class.
   }
@@ -61,10 +61,12 @@ public class Backport {
 
   /** Replacement for new String(byte[], Charset). */
   public static String getString(byte[] content, Charset charset) {
-    if (content == null)
+    if (content == null) {
       throw new NullPointerException("getString(null, ...)");
-    if (charset == null)
+    }
+    if (charset == null) {
       throw new NullPointerException("getString(..., null)");
+    }
     return charset.decode(ByteBuffer.wrap(content)).toString();
   }
 
