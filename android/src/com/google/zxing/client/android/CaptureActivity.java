@@ -67,7 +67,6 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Collection;
-import java.util.Date;
 import java.util.EnumSet;
 import java.util.Map;
 
@@ -472,6 +471,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
           Toast.makeText(getApplicationContext(),
                          getResources().getString(R.string.msg_bulk_mode_scanned) + " (" + rawResult.getText() + ')',
                          Toast.LENGTH_SHORT).show();
+          maybeSetClipboard(resultHandler);
           // Wait a moment or else it will scan the same barcode continuously about 3 times
           restartPreviewAfterDelay(BULK_MODE_SCAN_DELAY_MS);
         } else {
@@ -527,11 +527,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
   // Put up our own UI for how to handle the decoded contents.
   private void handleDecodeInternally(Result rawResult, ResultHandler resultHandler, Bitmap barcode) {
 
-    CharSequence displayContents = resultHandler.getDisplayContents();
-
-    if (copyToClipboard && !resultHandler.areContentsSecure()) {
-      ClipboardInterface.setText(displayContents, this);
-    }
+    maybeSetClipboard(resultHandler);
 
     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -560,7 +556,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
 
     DateFormat formatter = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
     TextView timeTextView = (TextView) findViewById(R.id.time_text_view);
-    timeTextView.setText(formatter.format(new Date(rawResult.getTimestamp())));
+    timeTextView.setText(formatter.format(rawResult.getTimestamp()));
 
 
     TextView metaTextView = (TextView) findViewById(R.id.meta_text_view);
@@ -583,6 +579,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
       }
     }
 
+    CharSequence displayContents = resultHandler.getDisplayContents();
     TextView contentsTextView = (TextView) findViewById(R.id.contents_text_view);
     contentsTextView.setText(displayContents);
     int scaledSize = Math.max(22, 32 - displayContents.length() / 4);
@@ -638,10 +635,7 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
       statusView.setText(getString(resultHandler.getDisplayTitle()) + " : " + rawResultString);
     }
 
-    if (copyToClipboard && !resultHandler.areContentsSecure()) {
-      CharSequence text = resultHandler.getDisplayContents();
-      ClipboardInterface.setText(text, this);
-    }
+    maybeSetClipboard(resultHandler);
 
     if (source == IntentSource.NATIVE_APP_INTENT) {
       
@@ -697,6 +691,12 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
         sendReplyMessage(R.id.launch_product_query, replyURL, resultDurationMS);
       }
       
+    }
+  }
+
+  private void maybeSetClipboard(ResultHandler resultHandler) {
+    if (copyToClipboard && !resultHandler.areContentsSecure()) {
+      ClipboardInterface.setText(resultHandler.getDisplayContents(), this);
     }
   }
   
