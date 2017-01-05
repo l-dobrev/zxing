@@ -11,3 +11,31 @@
 # Denote all files that are truly binary and should not be modified.
 *.png binary
 *.jpg binary
+
+# Test Case files must not be EOL managed
+core/src/test/resources/blackbox/qrcode-1/16.txt text eol=crlf
+core/src/test/resources/blackbox/qrcode-1/17.txt text eol=crlf
+core/src/test/resources/blackbox/qrcode-1/18.txt text eol=crlf
+core/src/test/resources/blackbox/qrcode-1/19.txt text eol=crlf
+core/src/test/resources/blackbox/qrcode-1/20.txt text eol=crlf
+core/src/test/resources/blackbox/qrcode-2/10.txt text eol=crlf
+core/src/test/resources/blackbox/qrcode-2/11.txt text eol=crlf
+core/src/test/resources/blackbox/qrcode-2/16.txt text eol=crlf
+core/src/test/resources/blackbox/qrcode-2/17.txt text eol=crlf
+core/src/test/resources/blackbox/qrcode-2/18.txt text eol=crlf
+core/src/test/resources/blackbox/qrcode-2/19.txt text eol=crlf
+core/src/test/resources/blackbox/qrcode-2/20.txt text eol=crlf
+core/src/test/resources/blackbox/qrcode-2/21.txt text eol=crlf
+core/src/test/resources/blackbox/qrcode-2/24.txt text eol=crlf
+core/src/test/resources/blackbox/qrcode-2/26.txt text eol=crlf
+core/src/test/resources/blackbox/qrcode-2/27.txt text eol=crlf
+core/src/test/resources/blackbox/qrcode-2/29.txt text eol=crlf
+core/src/test/resources/blackbox/qrcode-2/32.txt text eol=crlf
+core/src/test/resources/blackbox/qrcode-3/18.txt text eol=crlf
+core/src/test/resources/blackbox/qrcode-3/19.txt text eol=crlf
+core/src/test/resources/blackbox/qrcode-3/20.txt text eol=crlf
+core/src/test/resources/blackbox/qrcode-3/21.txt text eol=crlf
+core/src/test/resources/blackbox/qrcode-3/22.txt text eol=crlf
+core/src/test/resources/blackbox/qrcode-3/23.txt text eol=crlf
+core/src/test/resources/blackbox/qrcode-3/24.txt text eol=crlf
+core/src/test/resources/blackbox/qrcode-3/25.txt text eol=crlf
