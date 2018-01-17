@@ -29,21 +29,35 @@ import java.nio.charset.Charset;
  * @author Lachezar Dobrev
  */
 public final class Backport {
+  /** Character-Set ISO-8859-1, a.k.a. Latin-1 */
   public static final Charset ISO_8859_1 = Charset.forName("ISO-8859-1");
+  /** Character-Set UTF-8 */
   public static final Charset UTF_8      = Charset.forName("UTF-8");
 
   private Backport() {
     // Static methods holder class.
   }
 
-  /** Replacement for Arrays.copyOf(). */
+  /**
+   * Replacement for Arrays.copyOf().
+   *
+   * @param source array to copy from.
+   * @param length number of elements to copy.
+   * @return array with <code>length</code> elements from <code>source</code>.
+   */
   public static int[] copyOf(int[] source, int length) {
     int[] target = new int[length];
     System.arraycopy(source, 0, target, 0, Math.min(source.length, length));
     return target;
   }
 
-  /** Replacement for String.getBytes(Charset). */
+  /**
+   * Replacement for String.getBytes(Charset).
+   *
+   * @param contents String to get content from.
+   * @param charset Character-Set to encode the content in.
+   * @return String content encoded in the specified character-set.
+   */
   public static byte[] getBytes(String contents, Charset charset) {
     if (contents == null) {
       throw new NullPointerException("getBytes(null, ...)");
@@ -62,7 +76,13 @@ public final class Backport {
     return ba;
   }
 
-  /** Replacement for new String(byte[], Charset). */
+  /**
+   * Replacement for new String(byte[], Charset).
+   *
+   * @param content Byte Content for the new string.
+   * @param charset Character-Set for the Byte Content.
+   * @return New string with the given content in the specified character-set.
+   */
   public static String getString(byte[] content, Charset charset) {
     if (content == null) {
       throw new NullPointerException("getString(null, ...)");
@@ -73,7 +93,12 @@ public final class Backport {
     return charset.decode(ByteBuffer.wrap(content)).toString();
   }
 
-  /** Replacement for String.isEmpty(). */
+  /**
+   * Replacement for String.isEmpty().
+   *
+   * @param contents String to check.
+   * @return <code>true</code> if empty, otherwise <code>false</code>
+   */
   public static boolean isEmpty(String contents) {
     if (contents == null) {
       throw new NullPointerException("isEmpty(null)");
@@ -81,6 +106,13 @@ public final class Backport {
     return contents.length() == 0;
   }
 
+  /**
+   * Replacement for Integer.compare(int, int).
+   *
+   * @param a First integer.
+   * @param b Second integer.
+   * @return Comparison result: 0 if equal, -1 if a &lt; b, +1 if a &gt; b.
+   */
   public static int compare(int a, int b) {
     if (a < b) {
       return -1;

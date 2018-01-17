@@ -472,6 +472,11 @@ public class FinderPatternFinder {
   /**
    * @deprecated only exists for backwards compatibility
    * @see #handlePossibleCenter(int[], int, int)
+   * @param stateCount reading state module counts from horizontal scan
+   * @param i row where finder pattern may be found
+   * @param j end of possible finder pattern in row
+   * @param pureBarcode if the image is pure bar-code
+   * @return true if a finder pattern candidate was found this time
    */
   @Deprecated
   protected final boolean handlePossibleCenter(int[] stateCount, int i, int j, boolean pureBarcode) {
