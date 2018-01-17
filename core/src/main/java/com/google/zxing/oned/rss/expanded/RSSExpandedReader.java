@@ -161,7 +161,7 @@ public final class RSSExpandedReader extends AbstractRSSReader {
     if (checkChecksum()) {
       return this.pairs;
     }
-    
+
     boolean tryStackedDecode = !this.rows.isEmpty();
     storeRow(rowNumber, false); // TODO: deal with reversed rows
     if (tryStackedDecode) {
@@ -176,7 +176,7 @@ public final class RSSExpandedReader extends AbstractRSSReader {
         return ps;
       }
     }
-    
+
     throw NotFoundException.getNotFoundInstance();
   }
 
@@ -297,7 +297,7 @@ public final class RSSExpandedReader extends AbstractRSSReader {
     removePartialRows(this.pairs, this.rows);
   }
 
-  // Remove all the rows that contains only specified pairs 
+  // Remove all the rows that contains only specified pairs
   private static void removePartialRows(List<ExpandedPair> pairs, List<ExpandedRow> rows) {
     for (Iterator<ExpandedRow> iterator = rows.iterator(); iterator.hasNext();) {
       ExpandedRow r = iterator.next();
@@ -441,11 +441,11 @@ public final class RSSExpandedReader extends AbstractRSSReader {
     // boolean mayBeLast = checkPairSequence(previousPairs, pattern);
 
     DataCharacter leftChar  = this.decodeDataCharacter(row, pattern, isOddPattern, true);
-    
+
     if (!previousPairs.isEmpty() && previousPairs.get(previousPairs.size() - 1).mustBeLast()) {
       throw NotFoundException.getNotFoundInstance();
     }
-    
+
     DataCharacter rightChar;
     try {
       rightChar = this.decodeDataCharacter(row, pattern, isOddPattern, false);
@@ -582,14 +582,9 @@ public final class RSSExpandedReader extends AbstractRSSReader {
                                     boolean isOddPattern,
                                     boolean leftChar) throws NotFoundException {
     int[] counters = this.getDataCharacterCounters();
-    counters[0] = 0;
-    counters[1] = 0;
-    counters[2] = 0;
-    counters[3] = 0;
-    counters[4] = 0;
-    counters[5] = 0;
-    counters[6] = 0;
-    counters[7] = 0;
+    for (int x = 0; x < counters.length; x++) {
+      counters[x] = 0;
+    }
 
     if (leftChar) {
       recordPatternInReverse(row, pattern.getStartEnd()[0], counters);

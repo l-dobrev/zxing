@@ -16,6 +16,7 @@
 
 package com.google.zxing.multi.qrcode;
 
+import com.google.zxing.Backport;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
@@ -168,13 +169,7 @@ public final class QRCodeMultiReader extends QRCodeReader implements MultipleBar
     public int compare(Result a, Result b) {
       int aNumber = ((Integer) (a.getResultMetadata().get(ResultMetadataType.STRUCTURED_APPEND_SEQUENCE))).intValue();
       int bNumber = ((Integer) (b.getResultMetadata().get(ResultMetadataType.STRUCTURED_APPEND_SEQUENCE))).intValue();
-      if (aNumber < bNumber) {
-        return -1;
-      }
-      if (aNumber > bNumber) {
-        return 1;
-      }
-      return 0;
+      return Backport.compare(aNumber, bNumber);
     }
   }
 

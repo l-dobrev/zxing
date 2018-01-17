@@ -19,8 +19,6 @@ package com.google.zxing.datamatrix.encoder;
 import com.google.zxing.Dimension;
 import com.google.zxing.Backport;
 
-import java.nio.charset.Charset;
-
 final class EncoderContext {
 
   private final String msg;
@@ -35,7 +33,7 @@ final class EncoderContext {
 
   EncoderContext(String msg) {
     //From this point on Strings are not Unicode anymore!
-    byte[] msgBinary = Backport.getBytes(msg, Charset.forName("ISO-8859-1"));
+    byte[] msgBinary = Backport.getBytes(msg, Backport.ISO_8859_1);
     StringBuilder sb = new StringBuilder(msgBinary.length);
     for (int i = 0, c = msgBinary.length; i < c; i++) {
       char ch = (char) (msgBinary[i] & 0xff);
@@ -74,7 +72,7 @@ final class EncoderContext {
   public char getCurrent() {
     return msg.charAt(pos);
   }
-  
+
   public StringBuilder getCodewords() {
     return codewords;
   }
@@ -90,7 +88,7 @@ final class EncoderContext {
   public int getCodewordCount() {
     return this.codewords.length();
   }
-  
+
   public int getNewEncoding() {
     return newEncoding;
   }
@@ -114,7 +112,7 @@ final class EncoderContext {
   public int getRemainingCharacters() {
     return getTotalMessageCharCount() - pos;
   }
-  
+
   public SymbolInfo getSymbolInfo() {
     return symbolInfo;
   }

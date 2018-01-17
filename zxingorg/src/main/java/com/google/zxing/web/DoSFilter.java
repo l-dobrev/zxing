@@ -26,16 +26,9 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Logger;
 
 /**
  * A simplistic {@link Filter} that rejects requests from hosts that are sending too many
@@ -43,43 +36,21 @@ import java.util.logging.Logger;
  *
  * @author Sean Owen
  */
-@WebFilter("/w/decode")
+@WebFilter({"/w/decode", "/w/chart"})
 public final class DoSFilter implements Filter {
 
-  private static final Logger log = Logger.getLogger(DoSFilter.class.getName());
-
-  private static final int MAX_ACCESSES_PER_IP_PER_TIME = 10;
-  private static final int MAX_RECENT_ACCESS_MAP_SIZE = 100_000;
-
-  private final Map<String,AtomicInteger> numRecentAccesses;
-  private final Set<String> bannedIPAddresses;
   private Timer timer;
-
-  public DoSFilter() {
-    numRecentAccesses = Collections.synchronizedMap(new LinkedHashMap<String,AtomicInteger>() {
-      @Override
-      protected boolean removeEldestEntry(Map.Entry<String,AtomicInteger> eldest) {
-        return size() > MAX_RECENT_ACCESS_MAP_SIZE;
-      }
-    });
-    bannedIPAddresses = Collections.synchronizedSet(new HashSet<String>());
-  }
+  private DoSTracker sourceAddrTracker;
 
   @Override
   public void init(FilterConfig filterConfig) {
-    timer = new Timer("DoSFilter reset timer");
+    timer = new Timer("DoSFilter");
+    sourceAddrTracker = new DoSTracker(timer, 500, TimeUnit.MILLISECONDS.convert(5, TimeUnit.MINUTES), 10_000);
     timer.scheduleAtFixedRate(
         new TimerTask() {
           @Override
           public void run() {
-            numRecentAccesses.clear();
-          }
-        }, 0L, TimeUnit.MILLISECONDS.convert(1, TimeUnit.MINUTES));
-    timer.scheduleAtFixedRate(
-        new TimerTask() {
-          @Override
-          public void run() {
-            bannedIPAddresses.clear();
+            System.gc();
           }
         }, 0L, TimeUnit.MILLISECONDS.convert(15, TimeUnit.MINUTES));
   }
@@ -101,25 +72,7 @@ public final class DoSFilter implements Filter {
     if (remoteIPAddress == null) {
       remoteIPAddress = request.getRemoteAddr();
     }
-    if (remoteIPAddress == null || bannedIPAddresses.contains(remoteIPAddress)) {
-      return true;
-    }
-    if (getCount(remoteIPAddress) > MAX_ACCESSES_PER_IP_PER_TIME) {
-      log.warning("Possible DoS attack from " + remoteIPAddress);
-      bannedIPAddresses.add(remoteIPAddress);
-      return true;
-    }
-    return false;
-  }
-
-  private int getCount(String remoteIPAddress) {
-    AtomicInteger count = numRecentAccesses.get(remoteIPAddress);
-    if (count == null) {
-      numRecentAccesses.put(remoteIPAddress, new AtomicInteger(1));
-      return 1;
-    } else {
-      return count.incrementAndGet();
-    }
+    return sourceAddrTracker.isBanned(remoteIPAddress);
   }
 
   @Override

@@ -230,7 +230,6 @@ final class MultiFinderPatternFinder extends FinderPatternFinder {
 
   public FinderPatternInfo[] findMulti(Map<DecodeHintType,?> hints) throws NotFoundException {
     boolean tryHarder = hints != null && hints.containsKey(DecodeHintType.TRY_HARDER);
-    boolean pureBarcode = hints != null && hints.containsKey(DecodeHintType.PURE_BARCODE);
     BitMatrix image = getImage();
     int maxI = image.getHeight();
     int maxJ = image.getWidth();
@@ -241,7 +240,7 @@ final class MultiFinderPatternFinder extends FinderPatternFinder {
     // image, and then account for the center being 3 modules in size. This gives the smallest
     // number of pixels the center could be, so skip this often. When trying harder, look for all
     // QR versions regardless of how dense they are.
-    int iSkip = (int) (maxI / (MAX_MODULES * 4.0f) * 3);
+    int iSkip = (3 * maxI) / (4 * MAX_MODULES);
     if (iSkip < MIN_SKIP || tryHarder) {
       iSkip = MIN_SKIP;
     }
@@ -249,11 +248,7 @@ final class MultiFinderPatternFinder extends FinderPatternFinder {
     int[] stateCount = new int[5];
     for (int i = iSkip - 1; i < maxI; i += iSkip) {
       // Get a row of black/white values
-      stateCount[0] = 0;
-      stateCount[1] = 0;
-      stateCount[2] = 0;
-      stateCount[3] = 0;
-      stateCount[4] = 0;
+      clearCounts(stateCount);
       int currentState = 0;
       for (int j = 0; j < maxJ; j++) {
         if (image.get(j, i)) {
@@ -265,20 +260,12 @@ final class MultiFinderPatternFinder extends FinderPatternFinder {
         } else { // White pixel
           if ((currentState & 1) == 0) { // Counting black pixels
             if (currentState == 4) { // A winner?
-              if (foundPatternCross(stateCount) && handlePossibleCenter(stateCount, i, j, pureBarcode)) { // Yes
+              if (foundPatternCross(stateCount) && handlePossibleCenter(stateCount, i, j)) { // Yes
                 // Clear state to start looking again
                 currentState = 0;
-                stateCount[0] = 0;
-                stateCount[1] = 0;
-                stateCount[2] = 0;
-                stateCount[3] = 0;
-                stateCount[4] = 0;
+                clearCounts(stateCount);
               } else { // No, shift counts back by two
-                stateCount[0] = stateCount[2];
-                stateCount[1] = stateCount[3];
-                stateCount[2] = stateCount[4];
-                stateCount[3] = 1;
-                stateCount[4] = 0;
+                shiftCounts2(stateCount);
                 currentState = 3;
               }
             } else {
@@ -291,7 +278,7 @@ final class MultiFinderPatternFinder extends FinderPatternFinder {
       } // for j=...
 
       if (foundPatternCross(stateCount)) {
-        handlePossibleCenter(stateCount, i, maxJ, pureBarcode);
+        handlePossibleCenter(stateCount, i, maxJ);
       } // end if foundPatternCross
     } // for i=iSkip-1 ...
     FinderPattern[][] patternInfo = selectMutipleBestPatterns();

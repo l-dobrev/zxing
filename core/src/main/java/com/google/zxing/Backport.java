@@ -29,6 +29,9 @@ import java.nio.charset.Charset;
  * @author Lachezar Dobrev
  */
 public final class Backport {
+  public static final Charset ISO_8859_1 = Charset.forName("ISO-8859-1");
+  public static final Charset UTF_8      = Charset.forName("UTF-8");
+
   private Backport() {
     // Static methods holder class.
   }
@@ -76,6 +79,14 @@ public final class Backport {
       throw new NullPointerException("isEmpty(null)");
     }
     return contents.length() == 0;
+  }
+
+  public static int compare(int a, int b) {
+    if (a < b)
+      return -1;
+    if (a > b)
+      return +1;
+    return 0;
   }
 
 }

@@ -99,13 +99,13 @@ final class PDF417HighLevelEncoder {
    * identifier for a user defined Extended Channel Interpretation (ECI)
    */
   private static final int ECI_USER_DEFINED = 925;
-  
+
   /**
    * identifier for a general purpose ECO format
    */
   private static final int ECI_GENERAL_PURPOSE = 926;
-  
-  /** 
+
+  /**
    * identifier for an ECI of a character set of code page
    */
   private static final int ECI_CHARSET = 927;
@@ -127,7 +127,7 @@ final class PDF417HighLevelEncoder {
   private static final byte[] MIXED = new byte[128];
   private static final byte[] PUNCTUATION = new byte[128];
 
-  private static final Charset DEFAULT_ENCODING = Charset.forName("ISO-8859-1");
+  private static final Charset DEFAULT_ENCODING = Backport.ISO_8859_1;
 
   private PDF417HighLevelEncoder() {
   }

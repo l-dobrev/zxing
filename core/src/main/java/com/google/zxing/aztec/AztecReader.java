@@ -109,7 +109,7 @@ public final class AztecReader implements Reader {
                                points,
                                BarcodeFormat.AZTEC,
                                System.currentTimeMillis());
-    
+
     List<byte[]> byteSegments = decoderResult.getByteSegments();
     if (byteSegments != null) {
       result.putMetadata(ResultMetadataType.BYTE_SEGMENTS, byteSegments);
@@ -118,7 +118,7 @@ public final class AztecReader implements Reader {
     if (ecLevel != null) {
       result.putMetadata(ResultMetadataType.ERROR_CORRECTION_LEVEL, ecLevel);
     }
-    
+
     return result;
   }
 

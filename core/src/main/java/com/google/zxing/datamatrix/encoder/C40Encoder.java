@@ -42,11 +42,8 @@ class C40Encoder implements Encoder {
       if (!context.hasMoreCharacters()) {
         //Avoid having a single C40 value in the last triplet
         StringBuilder removed = new StringBuilder();
-        if ((buffer.length() % 3) == 2) {
-          if (available < 2 || available > 2) {
-            lastCharSize = backtrackOneCharacter(context, buffer, removed,
-                                                 lastCharSize);
-          }
+        if ((buffer.length() % 3) == 2 && (available < 2 || available > 2)) {
+          lastCharSize = backtrackOneCharacter(context, buffer, removed, lastCharSize);
         }
         while ((buffer.length() % 3) == 1
             && ((lastCharSize <= 3 && available != 1) || lastCharSize > 3)) {
@@ -59,7 +56,8 @@ class C40Encoder implements Encoder {
       if ((count % 3) == 0) {
         int newMode = HighLevelEncoder.lookAheadTest(context.getMessage(), context.pos, getEncodingMode());
         if (newMode != getEncodingMode()) {
-          context.signalEncoderChange(newMode);
+          // Return to ASCII encodation, which will actually handle latch to new mode
+          context.signalEncoderChange(HighLevelEncoder.ASCII_ENCODATION);
           break;
         }
       }

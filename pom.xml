@@ -19,7 +19,7 @@
 
   <groupId>com.google.zxing</groupId>
   <artifactId>zxing-parent</artifactId>
-  <version>3.3.1-SNAPSHOT</version>
+  <version>3.3.2-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <dependencyManagement>
@@ -40,11 +40,6 @@
         <artifactId>jcl-over-slf4j</artifactId>
         <version>${slf4j.version}</version>
         <scope>runtime</scope>
-      </dependency>
-      <dependency>
-        <groupId>com.google.guava</groupId>
-        <artifactId>guava</artifactId>
-        <version>21.0</version>
       </dependency>
       <dependency>
         <groupId>com.google.zxing</groupId>
@@ -79,20 +74,19 @@
     <module>core</module>
     <module>javase</module>
     <!-- android modules are activated by a profile below -->
-    <module>zxing.appspot.com</module>
     <module>zxingorg</module>
+    <!-- appspot app activated by a profile below -->
   </modules>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>1.7</java.version>
-    <maven.version.min>3.2.1</maven.version.min>
-    <proguard.version>5.3.2</proguard.version>
-    <proguard.plugin.version>2.0.13</proguard.plugin.version>
-    <slf4j.version>1.7.22</slf4j.version>
+    <proguard.version>5.3.3</proguard.version>
+    <proguard.plugin.version>2.0.14</proguard.plugin.version>
+    <slf4j.version>1.7.25</slf4j.version>
     <!-- This can't reference project.version as some subprojects version differently -->
-    <zxing.version>3.3.1-SNAPSHOT</zxing.version>
+    <zxing.version>3.3.2-SNAPSHOT</zxing.version>
     <android.platform>22</android.platform>
   </properties>
 
@@ -137,7 +131,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
-          <version>1.4.1</version>
+          <version>3.0.0-M1</version>
           <executions>
             <execution>
               <id>enforce</id>
@@ -148,7 +142,7 @@
                   <requireUpperBoundDeps />
                   <dependencyConvergence />
                   <requireMavenVersion>
-                    <version>${maven.version.min}</version>
+                    <version>3.2.5</version>
                   </requireMavenVersion>
                   <requireJavaVersion>
                     <version>${java.version}</version>
@@ -164,7 +158,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.6.1</version>
+          <version>3.7.0</version>
           <configuration>
             <source>${java.version}</source>
             <target>${java.version}</target>
@@ -189,7 +183,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>2.10.4</version>
+          <version>3.0.0-M1</version>
           <configuration>
             <javadocVersion>${java.version}</javadocVersion>
             <quiet>true</quiet>
@@ -243,7 +237,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-assembly-plugin</artifactId>
-          <version>3.0.0</version>
+          <version>3.1.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -302,6 +296,11 @@
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>3.0.2</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>2.9</version>
         </plugin>
@@ -320,13 +319,12 @@
           </executions>
           <configuration>
             <keyname>Sean Owen (ZXing) &lt;srowen@gmail.com&gt;</keyname>
-            <executable>gpg2</executable>
           </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.19.1</version>
+          <version>2.20.1</version>
           <configuration>
             <forkCount>0.5C</forkCount>
             <systemPropertyVariables>
@@ -337,12 +335,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-war-plugin</artifactId>
-          <version>3.0.0</version>
+          <version>3.2.0</version>
         </plugin>
         <plugin>
           <groupId>com.simpligility.maven.plugins</groupId>
           <artifactId>android-maven-plugin</artifactId>
-          <version>4.4.3</version>
+          <version>4.5.0</version>
           <extensions>true</extensions>
           <executions>
             <execution>
@@ -439,7 +437,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
-          <version>1.12</version>
+          <version>3.0.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -523,7 +521,7 @@
         <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
-          <version>0.7.8</version>
+          <version>0.7.9</version>
           <executions>
             <execution>
               <goals>
@@ -685,10 +683,6 @@
     <tag>HEAD</tag>
   </scm>
 
-  <prerequisites>
-    <maven>${maven.version.min}</maven>
-  </prerequisites>
-
   <distributionManagement>
     <repository>
       <id>sonatype-nexus-staging</id>
@@ -714,13 +708,12 @@
         <property>
           <name>env.ANDROID_HOME</name>
         </property>
+        <jdk>[,9)</jdk> <!-- Android won't necessarily work with JDK 9 -->
       </activation>
       <modules>
         <module>android-core</module>
         <module>android-integration</module>
         <module>android</module>
-        <module>androidtest</module>
-        <module>glass</module>
       </modules>
       <dependencyManagement>
         <dependencies>
@@ -729,7 +722,8 @@
             <artifactId>android</artifactId>
             <version>${android.platform}</version>
             <scope>system</scope>
-            <systemPath>${env.ANDROID_HOME}/platforms/android-${android.platform}/android.jar</systemPath>
+            <!-- ANDROID_HOME must be absolute, but redundant leading / may help Gradle Spring Boot plugin -->
+            <systemPath>/${env.ANDROID_HOME}/platforms/android-${android.platform}/android.jar</systemPath>
           </dependency>
         </dependencies>
       </dependencyManagement>
@@ -761,6 +755,11 @@
                 <skip>false</skip>
                 <config>proguard.cfg</config>
               </proguard>
+              <!-- repeat Android jar as library jar, as plugin ignores scope system deps -->
+              <proguardOptions>
+                <option>-libraryjars</option>
+                <option>${env.ANDROID_HOME}/platforms/android-${android.platform}/android.jar</option>
+              </proguardOptions>
               <sign>
                 <debug>false</debug>
               </sign>
@@ -815,6 +814,15 @@
           </plugin>
         </plugins>
       </build>
+    </profile>
+    <profile>
+      <id>appspot</id>
+      <activation>
+        <jdk>[,9)</jdk> <!-- Appspot won't work with JDK 9 -->
+      </activation>
+      <modules>
+         <module>zxing.appspot.com</module>
+      </modules>
     </profile>
   </profiles>
 
