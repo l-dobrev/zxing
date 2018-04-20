@@ -25,7 +25,7 @@ import java.nio.charset.Charset;
  * These methods will throw {@link NullPointerException} when a <code>null</code>
  * arguments are used. This is on-par with the JVM crashing when calling a method
  * on a <code>null</code> reference.
- * 
+ *
  * @author Lachezar Dobrev
  */
 public final class Backport {
@@ -48,6 +48,20 @@ public final class Backport {
   public static int[] copyOf(int[] source, int length) {
     int[] target = new int[length];
     System.arraycopy(source, 0, target, 0, Math.min(source.length, length));
+    return target;
+  }
+
+  /**
+   * Replacement for Arrays.copyOfRange().
+   *
+   * @param source array to copy from.
+   * @param from first element to copy (inclusive).
+   * @param upto last element to copy (exclusive).
+   * @return array with subset elements from <code>source</code>.
+   */
+  public static int[] copyOfRange(int[] source, int from, int upto) {
+    int[] target = new int[upto - from];
+    System.arraycopy(source, from, target, 0, upto - from);
     return target;
   }
 
